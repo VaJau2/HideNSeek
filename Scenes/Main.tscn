@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://Objects/Tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Objects/Characters/NPC.tscn" type="PackedScene" id=2]
@@ -17,6 +17,8 @@
 [ext_resource path="res://Objects/Furniture/Box.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Objects/Furniture/presentBox.tscn" type="PackedScene" id=16]
 [ext_resource path="res://Objects/Houses/Barn.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Assets/Scripts/Interface/Timer.gd" type="Script" id=18]
+[ext_resource path="res://Assets/Fonts/RusFontTheme.tres" type="Theme" id=19]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 37.5189, 10 )
@@ -461,6 +463,19 @@ scale = Vector2( 0.81, 0.81 )
 dialogue_id = "Test"
 
 [node name="canvas" type="CanvasLayer" parent="."]
+
+[node name="Timer" type="Label" parent="canvas"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -20.0
+margin_right = 20.0
+margin_bottom = 14.0
+theme = ExtResource( 19 )
+align = 1
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="DialogueMenu" parent="canvas" instance=ExtResource( 8 )]
 dialogue_file_path = "res://Assets/json/dialogues.json"
