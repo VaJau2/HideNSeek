@@ -1,8 +1,15 @@
 extends KinematicBody2D
 
+#-----
+# Базовый скрипт для игрока и неписей
+#-----
+
 class_name Character
 
+#переменные состояния
+#TODO: добавить состояние is_searching
 var is_hiding = false
+var hiding_in_prop = false
 var is_running = false
 
 onready var audi = get_node("audi")
@@ -23,21 +30,26 @@ const MATERIAL_ACCELS = {
 	"ice": 400
 }
 
-func showMessage(text: String, timer = 3) -> void:
+func ShowMessage(text: String, timer = 3) -> void:
 	messageLabel.text = text
 	messageTimer = timer
 	messageCount = true
 
 
-func changeAnimation(newAnimation: String) -> void:
+func ChangeAnimation(newAnimation: String) -> void:
 	anim.current_animation = newAnimation
 
 
-func setFlipX(flipX: bool) -> void:
-	sprite.flip_h = flipX
+func Hide(hide_on: bool) -> void:
+	is_hiding = hide_on
+	
+	if is_hiding:
+		ChangeAnimation("hide")
+	else:
+		ChangeAnimation("idle")
 
 
-func checkIceWalking() -> void:
+func _checkIceWalking() -> void:
 	var cellCoords = iceMap.world_to_map(position)
 	var cellNum = iceMap.get_cell(cellCoords.x - 3, cellCoords.y - 3)
 	if (cellNum == -1):
@@ -46,9 +58,9 @@ func checkIceWalking() -> void:
 		acceleration = MATERIAL_ACCELS.ice
 
 
-func _process(delta) -> void:
+func _process(delta):
 	if velocity.length() > 0:
-		checkIceWalking()
+		_checkIceWalking()
 	
 	if messageCount:
 		if messageTimer > 0:
@@ -58,6 +70,6 @@ func _process(delta) -> void:
 			messageLabel.text = ""
 
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta):
 	if (velocity.length() > 0):
 		move_and_slide(velocity)

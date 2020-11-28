@@ -3,6 +3,7 @@ extends HidingSpot
 export var shadow_size = Vector2(1,1)
 var shadow_texture = preload("res://Assets/Sprites/Shadows/treeShadow.png")
 
+
 func spawnShadow():
 	var my_shadow = Sprite.new()
 	yield(get_tree(),"idle_frame")

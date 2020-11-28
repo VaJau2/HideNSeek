@@ -1,6 +1,8 @@
 extends YSort
 
-# Перемещает все сгруппированные объекты в YSort
+#-----
+# Перемещает все сгруппированные объекты из группы sorting в YSort
+#-----
 
 func moveToYSort(oldParent, movingObj):
 	var pos = movingObj.global_position

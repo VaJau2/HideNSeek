@@ -1,9 +1,21 @@
 extends Label
 
+#-----
+# Скрипт для вывода таймера через интерфейс
+# Вызывается глобально через G.timer.StartTimer()
+# Генерирует сигнал, когда посчитает время
+#-----
+
 var minutes = 0
 var seconds = 0
 
 signal timeout
+
+
+func StartTimer(_seconds, _minutes = 0) -> void:
+	minutes = _minutes
+	seconds = _seconds
+	_makeWork(true)
 
 
 func _makeWork(work: bool) -> void:
@@ -17,12 +29,6 @@ func _getSecondString() -> String:
 	if tempSeconds < 10:
 		strSeconds = "0" + strSeconds
 	return strSeconds
-	
-
-func StartTimer(_seconds, _minutes = 0) -> void:
-	minutes = _minutes
-	seconds = _seconds
-	_makeWork(true)
 
 
 func _ready():

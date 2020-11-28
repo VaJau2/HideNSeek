@@ -1,5 +1,8 @@
 extends Character
 
+#TODO:
+#добавить неписям режим ведущего и прячущегося
+
 export var dialogue_id: String
 export var message_text: String
 
@@ -12,7 +15,7 @@ func interact(interactArea):
 		tempInteractArea.HideLabels = true
 		G.dialogueMenu.StartDialogue(self, dialogue_id)
 	elif message_text.length() > 0:
-		showMessage(message_text)
+		ShowMessage(message_text)
 
 
 func afterInteract():
@@ -21,4 +24,4 @@ func afterInteract():
 
 
 func _ready():
-	changeAnimation("idle")
+	ChangeAnimation("idle")

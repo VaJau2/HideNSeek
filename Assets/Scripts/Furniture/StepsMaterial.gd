@@ -1,5 +1,10 @@
 extends Area2D
 
+#-----
+# Обрабатывает через стандартные методы попадание Character
+# Меняет в их SoundSteps материал для озвучивания ходьбы
+#-----
+
 
 func _on_body_entered(body):
 	if body is Character:

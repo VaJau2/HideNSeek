@@ -1,5 +1,10 @@
-#Скрипт окошка диалога
 extends Control
+
+#-----
+# Скрипт окошка диалога
+# Взял из фалида, слегка поправил
+# Сам хз, как работает)))0
+#-----
 
 const TEXT_SPEED = 2
 
@@ -43,7 +48,7 @@ func leftOrRightPressed() -> bool:
 			Input.is_action_just_pressed("ui_right"))
 
 
-#Если на игроке что-то надето, это меняет его диалоговую иконку
+#скорее всего, этот метод потом надо будет удалить
 func checkPlayerIcon(icon_name) -> String:
 	var name_parts = icon_name.split("_")
 	if name_parts[0] == "player":
@@ -105,6 +110,9 @@ func ClickNext():
 		updateDialogueText()
 	else:
 		if buttons.visible:
+			#TODO:
+			#убрать смену режима игры
+			#когда закончится разработка hiding-режима
 			if yesSelected:
 				G.state = G.GAME_STATE.HIDING
 				

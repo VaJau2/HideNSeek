@@ -1,5 +1,12 @@
 extends Area2D
 
+#-----
+# Скрипт для взаимодействия с предметами/неписями
+# Обрабатывает массив предметов в радиусе interactArea
+# В качестве текущего объекта для взаимодействия берет ближайший
+# Вызывает его interact()-метод
+#-----
+
 var theme = preload("res://Assets/Fonts/RusFontTheme.tres")
 
 var tempInteractObj = null
@@ -22,6 +29,23 @@ var useButtons = {
 var HideLabels = false
 
 
+func _spawnLabels() -> void:
+	leftLabel = tempInteractObj.get_node("hints/leftLabel")
+	rightLabel = tempInteractObj.get_node("hints/rightLabel")
+	leftLabel.text = hints[tempHint]
+	rightLabel.text = hints[tempHint]
+
+
+func _showLabels() -> void:
+	if !HideLabels:
+		var leftOn = _objIsLefter()
+		leftLabel.visible = leftOn
+		rightLabel.visible = !leftOn
+	else:
+		leftLabel.visible = false
+		rightLabel.visible = false
+
+
 func _hideLabels() -> void:
 	if tempInteractObj != null:
 		if leftLabel != null:
@@ -34,14 +58,20 @@ func _objIsLefter() -> bool:
 	return tempInteractObj.global_position.x > get_parent().global_position.x
 
 
-func _showLabels() -> void:
-	if !HideLabels:
-		var leftOn = _objIsLefter()
-		leftLabel.visible = leftOn
-		rightLabel.visible = !leftOn
+func _getClosestObject():
+	if tempInteractObj != interactObjectsArray[objI]:
+		var tempDist = tempInteractObj.global_position.distance_to(G.player.global_position)
+		var newDist = interactObjectsArray[objI].global_position.distance_to(G.player.global_position)
+		if newDist < tempDist:
+			_hideLabels()
+			tempInteractObj = interactObjectsArray[objI]
+			tempHint = hintsArray[objI]
+			_spawnLabels()
+	
+	if objI < interactObjectsArray.size() - 1:
+		objI += 1
 	else:
-		leftLabel.visible = false
-		rightLabel.visible = false
+		objI = 0
 
 
 func _checkDialogue(body) -> bool:
@@ -59,36 +89,13 @@ func _checkHideSpot(body) -> bool:
 	return false;
 
 
-func spawnLabels() -> void:
-	leftLabel = tempInteractObj.get_node("hints/leftLabel")
-	rightLabel = tempInteractObj.get_node("hints/rightLabel")
-	leftLabel.text = hints[tempHint]
-	rightLabel.text = hints[tempHint]
-
-
-func getClosestObject():
-	if tempInteractObj != interactObjectsArray[objI]:
-		var tempDist = tempInteractObj.global_position.distance_to(G.player.global_position)
-		var newDist = interactObjectsArray[objI].global_position.distance_to(G.player.global_position)
-		if newDist < tempDist:
-			_hideLabels()
-			tempInteractObj = interactObjectsArray[objI]
-			tempHint = hintsArray[objI]
-			spawnLabels()
-	
-	if objI < interactObjectsArray.size() - 1:
-		objI += 1
-	else:
-		objI = 0
-
-
-func addInteractObject(newObject, hint):
+func _addInteractObject(newObject, hint):
 	if tempInteractObj == null:
 		tempInteractObj = newObject
 		tempHint = hint
 	interactObjectsArray.append(newObject)
 	hintsArray.append(hint)
-	spawnLabels()
+	_spawnLabels()
 
 
 func _on_interactArea_body_entered(body):
@@ -96,10 +103,10 @@ func _on_interactArea_body_entered(body):
 		return
 	
 	if _checkDialogue(body):
-		addInteractObject(body, "dialogue")
+		_addInteractObject(body, "dialogue")
 	
 	if _checkHideSpot(body):
-		addInteractObject(body, "hide")
+		_addInteractObject(body, "hide")
 
 
 func _on_interactArea_body_exited(body):
@@ -116,7 +123,7 @@ func _on_interactArea_body_exited(body):
 
 func _process(delta):
 	if interactObjectsArray.size() > 1:
-		getClosestObject()
+		_getClosestObject()
 		
 	if tempInteractObj:
 		_showLabels()
