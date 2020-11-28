@@ -46,6 +46,6 @@ func _process(delta):
 			parent.audi.play()
 			
 			var oldI = i
-			i = randi() % 3
+			i = randi() % STEP_SOUNDS_COUNT
 			while oldI == i:
-				i = randi() % 3
+				i = randi() % STEP_SOUNDS_COUNT
