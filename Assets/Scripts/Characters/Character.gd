@@ -16,7 +16,7 @@ var acceleration = 800
 
 onready var messageLabel = get_node("message")
 var messageTimer = 0
-var messageClearOnetime = false
+var messageCount = false
 
 const MATERIAL_ACCELS = {
 	"snow": 1000,
@@ -26,6 +26,7 @@ const MATERIAL_ACCELS = {
 func showMessage(text: String, timer = 3) -> void:
 	messageLabel.text = text
 	messageTimer = timer
+	messageCount = true
 
 
 func changeAnimation(newAnimation: String) -> void:
@@ -49,12 +50,11 @@ func _process(delta) -> void:
 	if velocity.length() > 0:
 		checkIceWalking()
 	
-	if messageTimer > 0:
-		messageTimer -= delta
-		messageClearOnetime = false
-	else:
-		if !messageClearOnetime:
-			messageClearOnetime = true
+	if messageCount:
+		if messageTimer > 0:
+			messageTimer -= delta
+		else:
+			messageCount = false
 			messageLabel.text = ""
 
 
