@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Scripts/Furniture/HidingSpot.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Fonts/RusFontTheme.tres" type="Theme" id=2]
+[ext_resource path="res://Assets/Sprites/Furniture/presentBox/presentBox_back.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Sprites/Furniture/presentBox/presentBox.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Sprites/Furniture/presentBox/presentBox_open.png" type="Texture" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 10.5036, 15.432 )
+
+[node name="presentBox" type="KinematicBody2D"]
+script = ExtResource( 1 )
+open_sprite = ExtResource( 5 )
+hide_animation = "sit"
+
+[node name="Sprite_back" type="Sprite" parent="."]
+show_behind_parent = true
+position = Vector2( 0, -18 )
+scale = Vector2( 1.2, 1.2 )
+texture = ExtResource( 3 )
+
+[node name="hidePlace" type="Node2D" parent="."]
+show_behind_parent = true
+position = Vector2( 0, -8 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -18 )
+scale = Vector2( 1.2, 1.2 )
+texture = ExtResource( 4 )
+
+[node name="shape" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -6.08633 )
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="hints" type="Node2D" parent="."]
+
+[node name="leftLabel" type="Label" parent="hints"]
+margin_left = -2.0
+margin_top = -45.0
+margin_right = -2.0
+margin_bottom = -31.0
+grow_horizontal = 0
+theme = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="rightLabel" type="Label" parent="hints"]
+margin_left = 5.0
+margin_top = -45.0
+margin_right = 5.0
+margin_bottom = -31.0
+theme = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

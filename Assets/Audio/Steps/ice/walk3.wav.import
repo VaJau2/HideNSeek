@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/walk3.wav-b998b1110d77c0097e0b2db2cb69f4b0.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/Steps/ice/walk3.wav"
+dest_files=[ "res://.import/walk3.wav-b998b1110d77c0097e0b2db2cb69f4b0.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

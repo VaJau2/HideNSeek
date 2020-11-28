@@ -1,0 +1,265 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/Scripts/Interface/DialogueMenu.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Fonts/RusFontTheme.tres" type="Theme" id=2]
+
+[node name="DialogueMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DialogueBackground" type="ColorRect" parent="."]
+visible = false
+anchor_top = 0.717
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 7.89999
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DialogueTextWithoutIcon" type="Label" parent="DialogueBackground"]
+anchor_right = 1.0
+margin_left = 17.0
+margin_top = 12.0
+margin_right = -11.0
+margin_bottom = 59.0
+rect_scale = Vector2( 0.9, 0.9 )
+theme = ExtResource( 2 )
+text = "> тестовый текст"
+valign = 1
+
+[node name="DialogueText" type="Label" parent="DialogueBackground"]
+anchor_right = 1.0
+margin_left = 141.0
+margin_top = 12.0
+margin_right = -11.0
+margin_bottom = 59.0
+rect_scale = Vector2( 0.9, 0.9 )
+theme = ExtResource( 2 )
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="icon" type="TextureRect" parent="DialogueBackground"]
+margin_left = 26.0
+margin_top = 13.0
+margin_right = 80.0
+margin_bottom = 67.0
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Buttons" type="Control" parent="DialogueBackground"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Yes" type="Control" parent="DialogueBackground/Buttons"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -81.9873
+margin_top = -37.2705
+margin_right = -22.9873
+margin_bottom = -14.2705
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="selected" type="Control" parent="DialogueBackground/Buttons/Yes"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="BorderUp2" type="ColorRect" parent="DialogueBackground/Buttons/Yes/selected"]
+anchor_right = 1.0
+margin_bottom = 4.0
+color = Color( 0.964706, 0.584314, 0.141176, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BorderDown2" type="ColorRect" parent="DialogueBackground/Buttons/Yes/selected"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -3.0
+margin_bottom = 1.0
+color = Color( 0.964706, 0.584314, 0.141176, 1 )
+
+[node name="BorderLeft2" type="ColorRect" parent="DialogueBackground/Buttons/Yes/selected"]
+anchor_bottom = 1.0
+margin_right = 4.0
+color = Color( 0.964706, 0.584314, 0.141176, 1 )
+
+[node name="BorderRight2" type="ColorRect" parent="DialogueBackground/Buttons/Yes/selected"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -4.0
+color = Color( 0.964706, 0.584314, 0.141176, 1 )
+
+[node name="BorderUp" type="ColorRect" parent="DialogueBackground/Buttons/Yes"]
+anchor_right = 1.0
+margin_bottom = 2.0
+
+[node name="BorderDown" type="ColorRect" parent="DialogueBackground/Buttons/Yes"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -1.0
+margin_bottom = 1.0
+
+[node name="BorderLeft" type="ColorRect" parent="DialogueBackground/Buttons/Yes"]
+anchor_bottom = 1.0
+margin_right = 2.0
+
+[node name="BorderRight" type="ColorRect" parent="DialogueBackground/Buttons/Yes"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -2.0
+
+[node name="Label" type="Label" parent="DialogueBackground/Buttons/Yes"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 5.0
+margin_bottom = 2.0
+rect_scale = Vector2( 0.9, 0.9 )
+theme = ExtResource( 2 )
+text = "Да"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="No" type="Control" parent="DialogueBackground/Buttons"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = -37.2705
+margin_right = 75.0
+margin_bottom = -14.2705
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="selected" type="Control" parent="DialogueBackground/Buttons/No"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="BorderUp2" type="ColorRect" parent="DialogueBackground/Buttons/No/selected"]
+anchor_right = 1.0
+margin_bottom = 4.0
+color = Color( 0.964706, 0.584314, 0.141176, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BorderDown2" type="ColorRect" parent="DialogueBackground/Buttons/No/selected"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -3.0
+margin_bottom = 1.0
+color = Color( 0.964706, 0.584314, 0.141176, 1 )
+
+[node name="BorderLeft2" type="ColorRect" parent="DialogueBackground/Buttons/No/selected"]
+anchor_bottom = 1.0
+margin_right = 4.0
+color = Color( 0.964706, 0.584314, 0.141176, 1 )
+
+[node name="BorderRight2" type="ColorRect" parent="DialogueBackground/Buttons/No/selected"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -4.0
+color = Color( 0.964706, 0.584314, 0.141176, 1 )
+
+[node name="BorderUp" type="ColorRect" parent="DialogueBackground/Buttons/No"]
+anchor_right = 1.0
+margin_bottom = 2.0
+
+[node name="BorderDown" type="ColorRect" parent="DialogueBackground/Buttons/No"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -1.0
+margin_bottom = 1.0
+
+[node name="BorderLeft" type="ColorRect" parent="DialogueBackground/Buttons/No"]
+anchor_bottom = 1.0
+margin_right = 2.0
+
+[node name="BorderRight" type="ColorRect" parent="DialogueBackground/Buttons/No"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -2.0
+
+[node name="Label" type="Label" parent="DialogueBackground/Buttons/No"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 5.0
+margin_bottom = 2.0
+rect_scale = Vector2( 0.9, 0.9 )
+theme = ExtResource( 2 )
+text = "Нет"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SpaceToContinue" type="Label" parent="DialogueBackground"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -113.654
+margin_top = -16.9977
+margin_right = 5.34613
+margin_bottom = -3.99774
+rect_scale = Vector2( 0.9, 0.9 )
+theme = ExtResource( 2 )
+text = "Пробел, чтобы продолжить"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BorderUp" type="ColorRect" parent="DialogueBackground"]
+anchor_right = 1.0
+margin_bottom = 2.0
+
+[node name="BorderDown" type="ColorRect" parent="DialogueBackground"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -2.0
+
+[node name="BorderLeft" type="ColorRect" parent="DialogueBackground"]
+anchor_bottom = 1.0
+margin_right = 2.0
+
+[node name="BorderRight" type="ColorRect" parent="DialogueBackground"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -2.0

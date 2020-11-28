@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Objects/Characters/Character.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Scripts/Characters/NPC.gd" type="Script" id=2]
+
+[node name="NPC" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="Sprite" parent="." index="1"]
+modulate = Color( 0.254902, 0.619608, 0.192157, 1 )
+frame = 1

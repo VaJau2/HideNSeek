@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/run2.wav-94cb8428adc3f8a7eb9a44a6fc7cf11c.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/Steps/ice/run2.wav"
+dest_files=[ "res://.import/run2.wav-94cb8428adc3f8a7eb9a44a6fc7cf11c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/run3.wav-207a8a57a38e0ab2911ae91274f52b2f.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/Steps/dirt/run3.wav"
+dest_files=[ "res://.import/run3.wav-207a8a57a38e0ab2911ae91274f52b2f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
