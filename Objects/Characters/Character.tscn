@@ -170,7 +170,7 @@ hframes = 8
 
 [node name="audi" type="AudioStreamPlayer2D" parent="."]
 volume_db = -18.0
-max_distance = 1000.0
+max_distance = 800.0
 script = ExtResource( 5 )
 stepsArray = {
 "dirt": [ ExtResource( 13 ), ExtResource( 18 ), ExtResource( 14 ) ],

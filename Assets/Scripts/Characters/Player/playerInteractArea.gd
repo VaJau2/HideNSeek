@@ -54,6 +54,13 @@ func _hideLabels() -> void:
 			rightLabel.visible = false
 
 
+func _respawnLabels(objI: int) -> void:
+	_hideLabels()
+	tempInteractObj = interactObjectsArray[objI]
+	tempHint = hintsArray[objI]
+	_spawnLabels()
+
+
 func _objIsLefter() -> bool:
 	return tempInteractObj.global_position.x > get_parent().global_position.x
 
@@ -63,10 +70,7 @@ func _getClosestObject():
 		var tempDist = tempInteractObj.global_position.distance_to(G.player.global_position)
 		var newDist = interactObjectsArray[objI].global_position.distance_to(G.player.global_position)
 		if newDist < tempDist:
-			_hideLabels()
-			tempInteractObj = interactObjectsArray[objI]
-			tempHint = hintsArray[objI]
-			_spawnLabels()
+			_respawnLabels(objI)
 	
 	if objI < interactObjectsArray.size() - 1:
 		objI += 1
@@ -116,7 +120,9 @@ func _on_interactArea_body_exited(body):
 		var deleteObjI = interactObjectsArray.find(body)
 		interactObjectsArray.remove(deleteObjI)
 		hintsArray.remove(deleteObjI)
-		
+	
+	if (interactObjectsArray.size() == 1):
+		_respawnLabels(0)
 	if (interactObjectsArray.size() == 0):
 		_hideLabels()
 		tempInteractObj = null
