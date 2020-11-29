@@ -39,6 +39,7 @@ func _changeParent(new_parent) -> void:
 func search(searchingNPC = null) -> void:
 	sprite.texture = open_sprite
 	var is_busy = my_character != null
+	yield(get_tree().create_timer(OPEN_TIMER), "timeout")
 	
 	if is_busy:
 		var interactArea = null

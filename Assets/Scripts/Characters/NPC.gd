@@ -17,6 +17,7 @@ const RUN_DISTANCE = 150
 const CLOSE_DISTANCE = 35
 const PATH_DISTANCE = 25
 const WAIT_TIME = 0.5
+const SEARCH_WAIT_TIME = 1
 var waitTime = 0
 
 var targetPlace = null
@@ -111,6 +112,7 @@ func _updateWalking(delta) -> void:
 				if path.size() > 1:
 					path.remove(0)
 		else:
+			waitTime = WAIT_TIME
 			if targetPlace is HidingSpot:
 				if state == G.STATE.HIDING:
 					setHide(true)
@@ -119,7 +121,7 @@ func _updateWalking(delta) -> void:
 					waitState = waitStates.searching
 					changeAnimation("use")
 					targetPlace.search(self)
-			waitTime = WAIT_TIME
+					waitTime = SEARCH_WAIT_TIME
 			targetPlace = null
 
 

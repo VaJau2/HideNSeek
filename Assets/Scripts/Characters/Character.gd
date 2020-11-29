@@ -82,4 +82,4 @@ func _process(delta):
 
 func _physics_process(_delta):
 	if (velocity.length() > 0):
-		move_and_slide(velocity)
+		velocity = move_and_slide(velocity)
