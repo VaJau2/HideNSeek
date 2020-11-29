@@ -19,6 +19,8 @@ onready var ySort = get_node("/root/Main/YSort")
 var oldPlace = Vector2()
 var close_sprite
 
+var may_interact = true
+
 
 func _ready():
 	close_sprite = sprite.texture
@@ -39,7 +41,9 @@ func _changeParent(new_parent) -> void:
 func search(searchingNPC = null) -> void:
 	sprite.texture = open_sprite
 	var is_busy = my_character != null
+	may_interact = false
 	yield(get_tree().create_timer(OPEN_TIMER), "timeout")
+	may_interact = true
 	
 	if is_busy:
 		var interactArea = null
@@ -58,6 +62,9 @@ func search(searchingNPC = null) -> void:
 # Character прячется через свой стандартный метод, затем вызывает interact
 # Проп перемещает его внутрь себя
 func interact(interactArea = null, character = G.player) -> void:
+	if !may_interact:
+		return 
+	
 	if interactArea != null:
 		interactArea.HideLabels = character.is_hiding
 	character.hiding_in_prop = character.is_hiding

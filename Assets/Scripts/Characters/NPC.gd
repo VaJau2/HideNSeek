@@ -15,7 +15,7 @@ var tempInteractArea = null
 #переменные для навигации по карте
 const RUN_DISTANCE = 150
 const CLOSE_DISTANCE = 35
-const PATH_DISTANCE = 25
+const PATH_DISTANCE = 20
 const WAIT_TIME = 0.5
 const SEARCH_WAIT_TIME = 1
 var waitTime = 0
