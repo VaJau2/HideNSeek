@@ -7,9 +7,9 @@
 [ext_resource path="res://Assets/Sprites/Houses/barn/barn_opened.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 18.7915, 74.2976 )
+extents = Vector2( 49.6065, 73.1389 )
 
-[node name="Back" type="KinematicBody2D"]
+[node name="Barn" type="KinematicBody2D"]
 script = ExtResource( 1 )
 open_sprite = ExtResource( 5 )
 hide_animation = "sit"
@@ -30,7 +30,7 @@ scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 4 )
 
 [node name="shape" type="CollisionShape2D" parent="."]
-position = Vector2( -1.9643, -17.5916 )
+position = Vector2( 0, -49.93 )
 rotation = 1.5708
 shape = SubResource( 1 )
 

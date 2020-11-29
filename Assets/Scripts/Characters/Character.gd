@@ -17,6 +17,7 @@ onready var anim = get_node("anim")
 onready var sprite = get_node("Sprite")
 onready var iceMap = get_node("/root/Main/tiles/ice")
 var velocity = Vector2()
+var dir = Vector2()
 var speed = 120
 var run_speed = 200
 var acceleration = 800
@@ -30,23 +31,36 @@ const MATERIAL_ACCELS = {
 	"ice": 400
 }
 
-func ShowMessage(text: String, timer = 3) -> void:
+func showMessage(text: String, timer = 3) -> void:
 	messageLabel.text = text
 	messageTimer = timer
 	messageCount = true
 
 
-func ChangeAnimation(newAnimation: String) -> void:
+func changeAnimation(newAnimation: String) -> void:
 	anim.current_animation = newAnimation
 
 
-func Hide(hide_on: bool) -> void:
+func setHide(hide_on: bool) -> void:
 	is_hiding = hide_on
 	
 	if is_hiding:
-		ChangeAnimation("hide")
+		changeAnimation("hide")
 	else:
-		ChangeAnimation("idle")
+		changeAnimation("idle")
+
+
+func updateVelocity(delta: float):
+	var temp_speed = run_speed if (is_running) else speed
+	var temp_anim = "idle"
+	if dir.length() > 0:
+		temp_anim = "run" if (is_running) else "walk"
+	
+	if !is_hiding:
+		velocity = velocity.move_toward(dir * temp_speed, acceleration * delta)
+		changeAnimation(temp_anim)
+	else:
+		velocity = Vector2(0, 0)
 
 
 func _checkIceWalking() -> void:

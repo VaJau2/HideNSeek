@@ -11,9 +11,6 @@ extents = Vector2( 77.5622, 46.1336 )
 modulate = Color( 0.423529, 0.501961, 0.862745, 1 )
 script = ExtResource( 2 )
 
-[node name="Sprite" parent="." index="1"]
-frame = 4
-
 [node name="Camera" type="Camera2D" parent="." index="3"]
 current = true
 drag_margin_h_enabled = true

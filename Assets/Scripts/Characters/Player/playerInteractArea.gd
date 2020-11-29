@@ -121,7 +121,7 @@ func _on_interactArea_body_exited(body):
 		tempInteractObj = null
 
 
-func _process(delta):
+func _process(_delta):
 	if interactObjectsArray.size() > 1:
 		_getClosestObject()
 		

@@ -50,7 +50,7 @@ func interact(interactArea, character = G.player) -> void:
 		_changeParent(hidePlace)
 		oldPlace = character.global_position
 		character.global_position = hidePlace.global_position
-		character.ChangeAnimation(hide_animation)
+		character.changeAnimation(hide_animation)
 		sprite.texture = open_sprite
 		yield(get_tree().create_timer(OPEN_TIMER), "timeout")
 		sprite.texture = close_sprite

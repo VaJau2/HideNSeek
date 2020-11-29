@@ -160,7 +160,7 @@ func _process(delta):
 				buttons.visible = true
 
 
-func _input(event):
+func _input(_event):
 	if dialogueMenu.is_visible():
 		if Input.is_action_just_pressed("ui_accept"):
 			if is_animating:

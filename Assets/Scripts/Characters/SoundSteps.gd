@@ -10,7 +10,7 @@ const STEP_RUN_COOLDOWN = 0.55
 const STEP_SOUNDS_COUNT = 3
 
 var timer = 0
-var i = 0
+var stepI = 0
 
 var land_material = "snow"
 onready var parent = get_parent()
@@ -27,9 +27,11 @@ func _ready():
 			steps[material].append(
 				load("res://assets/audio/steps/" + material + "/walk" + str(i + 1) + ".wav")
 			)
-			stepsRun[material].append(
-				load("res://assets/audio/steps/" + material + "/run" + str(i + 1) + ".wav")
-			)
+			# звуки бега на мосту нинужны, тк мосты маленькие
+			if material != "wood":
+				stepsRun[material].append(
+					load("res://assets/audio/steps/" + material + "/run" + str(i + 1) + ".wav")
+				)
 
 
 func _process(delta):
@@ -38,14 +40,17 @@ func _process(delta):
 			timer -= delta
 		else:
 			if parent.is_running:
-				parent.audi.stream = stepsRun[land_material][i]
+				if (stepsRun[land_material]):
+					parent.audi.stream = stepsRun[land_material][stepI]
+				else:
+					parent.audi.stream = steps[land_material][stepI]
 				timer = STEP_RUN_COOLDOWN
 			else:
-				parent.audi.stream = steps[land_material][i]
+				parent.audi.stream = steps[land_material][stepI]
 				timer = STEP_COOLDOWN
 			parent.audi.play()
 			
-			var oldI = i
-			i = randi() % STEP_SOUNDS_COUNT
-			while oldI == i:
-				i = randi() % STEP_SOUNDS_COUNT
+			var oldI = stepI
+			stepI = randi() % STEP_SOUNDS_COUNT
+			while oldI == stepI:
+				stepI = randi() % STEP_SOUNDS_COUNT

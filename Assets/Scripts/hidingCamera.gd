@@ -15,7 +15,7 @@ func _ready():
 	set_process(false)
 
 
-func _process(delta):
+func _process(_delta):
 	var dir = Vector2(0,0)
 	if (Input.is_action_pressed("ui_up")):
 		dir.y = -1

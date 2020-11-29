@@ -6,6 +6,6 @@
 [node name="NPC" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="Sprite" parent="." index="1"]
+[node name="Sprite" parent="." index="2"]
 modulate = Color( 0.254902, 0.619608, 0.192157, 1 )
 frame = 1
