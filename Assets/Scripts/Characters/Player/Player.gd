@@ -11,6 +11,13 @@ onready var interactArea = get_node("interactArea")
 var mayMove = true
 
 
+func setState(newState):
+	state = newState
+	if newState == G.STATE.HIDING:
+		if !(self in get_parent().characters):
+			get_parent().addCharacter(self)
+
+
 func setHide(hide_on: bool) -> void:
 	.setHide(hide_on)
 	mayMove = !is_hiding

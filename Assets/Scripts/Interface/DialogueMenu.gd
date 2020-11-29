@@ -74,13 +74,8 @@ func ClickNext():
 		updateDialogueText()
 	else:
 		if buttons.visible:
-			#TODO:
-			#убрать смену режима игры
-			#когда закончится разработка hiding-режима
 			if yesSelected:
-				G.player.state = G.STATE.HIDING
-				G.timer.StartTimer(G.HIDING_TIME)
-				NPC.setState(G.STATE.SEARCHING)
+				G.startHiding(NPC)
 				
 		if (NPC.has_method("afterInteract")):
 			NPC.afterInteract()

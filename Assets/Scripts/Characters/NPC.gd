@@ -11,6 +11,7 @@ export var dialogue_id: String
 export var phraseSection: String
 export var phraseCode: String
 var tempInteractArea = null
+var startDialogueId = ""
 
 #переменные для навигации по карте
 const RUN_DISTANCE = 150
@@ -44,14 +45,20 @@ func showMessage(section: String, phrase: String, timer = 3) -> void:
 	messageCount = true
 
 
-
 func setState(newState) -> void:
 	state = newState
 	match newState:
+		G.STATE.IDLE:
+			if startDialogueId.length() > 0:
+				dialogue_id = "TestAgain"
+				targetPlace = null
 		G.STATE.SEARCHING:
+			dialogue_id = ""
 			waitTime = G.HIDING_TIME
 			waitState = waitStates.waiting
 			changeAnimation("wait")
+			if !(self in get_parent().characters):
+				get_parent().addCharacter(self)
 
 
 func goTo(object: Node2D, distance = null) -> void:
@@ -83,6 +90,8 @@ func setFlipX(flipOn: bool) -> void:
 func sayAfterSearching(found: bool) -> void:
 	if found:
 		showMessage("searching", "found", 2)
+		setState(G.STATE.IDLE)
+		G.player.setState(G.STATE.IDLE)
 	else:
 		if randf() <= FAIL_SAY_CHANCE:
 			showMessage("searching", "fail", 2)
@@ -112,6 +121,7 @@ func _updateWalking(delta) -> void:
 				if path.size() > 1:
 					path.remove(0)
 		else:
+			#когда нпц пришел к точке
 			waitTime = WAIT_TIME
 			if targetPlace is HidingSpot:
 				if state == G.STATE.HIDING:
@@ -166,6 +176,7 @@ func afterInteract() -> void:
 
 func _ready():
 	changeAnimation("idle")
+	startDialogueId = dialogue_id
 
 
 func _process(delta):

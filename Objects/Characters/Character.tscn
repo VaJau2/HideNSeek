@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Assets/Scripts/Characters/Character.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Sprites/Characters/testPonySmall.png" type="Texture" id=2]
@@ -6,6 +6,27 @@
 [ext_resource path="res://Assets/Fonts/YellowTheme.tres" type="Theme" id=4]
 [ext_resource path="res://Assets/Scripts/Characters/SoundSteps.gd" type="Script" id=5]
 [ext_resource path="res://Assets/Sprites/Shadows/ponyShadow.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Audio/Steps/wood/walk2.wav" type="AudioStream" id=7]
+[ext_resource path="res://Assets/Audio/Steps/wood/walk3.wav" type="AudioStream" id=8]
+[ext_resource path="res://Assets/Audio/Steps/snow/walk1.wav" type="AudioStream" id=9]
+[ext_resource path="res://Assets/Audio/Steps/snow/walk2.wav" type="AudioStream" id=10]
+[ext_resource path="res://Assets/Audio/Steps/snow/walk3.wav" type="AudioStream" id=11]
+[ext_resource path="res://Assets/Audio/Steps/wood/walk1.wav" type="AudioStream" id=12]
+[ext_resource path="res://Assets/Audio/Steps/dirt/walk1.wav" type="AudioStream" id=13]
+[ext_resource path="res://Assets/Audio/Steps/dirt/walk3.wav" type="AudioStream" id=14]
+[ext_resource path="res://Assets/Audio/Steps/ice/walk1.wav" type="AudioStream" id=15]
+[ext_resource path="res://Assets/Audio/Steps/ice/walk3.wav" type="AudioStream" id=16]
+[ext_resource path="res://Assets/Audio/Steps/ice/walk2.wav" type="AudioStream" id=17]
+[ext_resource path="res://Assets/Audio/Steps/dirt/walk2.wav" type="AudioStream" id=18]
+[ext_resource path="res://Assets/Audio/Steps/snow/run1.wav" type="AudioStream" id=19]
+[ext_resource path="res://Assets/Audio/Steps/snow/run2.wav" type="AudioStream" id=20]
+[ext_resource path="res://Assets/Audio/Steps/snow/run3.wav" type="AudioStream" id=21]
+[ext_resource path="res://Assets/Audio/Steps/dirt/run1.wav" type="AudioStream" id=22]
+[ext_resource path="res://Assets/Audio/Steps/dirt/run2.wav" type="AudioStream" id=23]
+[ext_resource path="res://Assets/Audio/Steps/ice/run2.wav" type="AudioStream" id=24]
+[ext_resource path="res://Assets/Audio/Steps/dirt/run3.wav" type="AudioStream" id=25]
+[ext_resource path="res://Assets/Audio/Steps/ice/run3.wav" type="AudioStream" id=26]
+[ext_resource path="res://Assets/Audio/Steps/ice/run1.wav" type="AudioStream" id=27]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.66425
@@ -148,9 +169,21 @@ vframes = 7
 hframes = 8
 
 [node name="audi" type="AudioStreamPlayer2D" parent="."]
-volume_db = -6.0
+volume_db = -18.0
 max_distance = 1000.0
 script = ExtResource( 5 )
+stepsArray = {
+"dirt": [ ExtResource( 13 ), ExtResource( 18 ), ExtResource( 14 ) ],
+"ice": [ ExtResource( 15 ), ExtResource( 17 ), ExtResource( 16 ) ],
+"snow": [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ) ],
+"wood": [ ExtResource( 12 ), ExtResource( 7 ), ExtResource( 8 ) ]
+}
+stepsRunArray = {
+"dirt": [ ExtResource( 22 ), ExtResource( 23 ), ExtResource( 25 ) ],
+"ice": [ ExtResource( 27 ), ExtResource( 24 ), ExtResource( 26 ) ],
+"snow": [ ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ) ],
+"wood": [ ExtResource( 12 ), ExtResource( 7 ), ExtResource( 8 ) ]
+}
 
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/hide = SubResource( 2 )

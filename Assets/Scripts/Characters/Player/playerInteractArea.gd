@@ -78,7 +78,7 @@ func _checkDialogue(body) -> bool:
 	if body is Character:
 		if body.dialogue_id && body.dialogue_id.length() > 0:
 			return true
-		if body.message_text && body.message_text.length() > 0:
+		if body.phraseCode && body.phraseCode.length() > 0:
 			return true
 	return false
 

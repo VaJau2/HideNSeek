@@ -531,6 +531,14 @@ dialogue_file_path = "res://Assets/json/dialogues.json"
 phrases_male_file_path = "res://Assets/json/phrases_male.json"
 phrases_female_file_path = "res://Assets/json/phrases_female.json"
 
+[node name="background" type="ColorRect" parent="canvas"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="hidingCamera" type="Camera2D" parent="."]
 script = ExtResource( 10 )
 __meta__ = {
