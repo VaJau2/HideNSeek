@@ -84,8 +84,9 @@ func _checkDialogue(body) -> bool:
 
 
 func _checkHideSpot(body) -> bool:
-	if G.state == G.GAME_STATE.HIDING && body is HidingSpot && !body.is_busy:
-		return true;
+	if G.player.state == G.STATE.HIDING:
+		if body is HidingSpot && body.my_character == null:
+			return true;
 	return false;
 
 

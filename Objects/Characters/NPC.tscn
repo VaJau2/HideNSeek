@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Objects/Characters/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Scripts/Characters/NPC.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 179.997, 90.8155 )
 
 [node name="NPC" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -9,3 +12,12 @@ script = ExtResource( 2 )
 [node name="Sprite" parent="." index="2"]
 modulate = Color( 0.254902, 0.619608, 0.192157, 1 )
 frame = 1
+
+[node name="seekArea" type="Area2D" parent="." index="7"]
+visible = false
+position = Vector2( 80, 0 )
+
+[node name="shape" type="CollisionShape2D" parent="seekArea" index="0"]
+shape = SubResource( 1 )
+[connection signal="body_entered" from="seekArea" to="." method="_on_seekArea_body_entered"]
+[connection signal="body_exited" from="seekArea" to="." method="_on_seekArea_body_exited"]

@@ -8,7 +8,7 @@ class_name HidingSpot
 
 const OPEN_TIMER = 0.5
 
-var is_busy = false
+var my_character = null
 
 export var open_sprite: Resource
 export var hide_animation = "hide"
@@ -18,6 +18,7 @@ onready var hidePlace = get_node("hidePlace")
 onready var ySort = get_node("/root/Main/YSort")
 var oldPlace = Vector2()
 var close_sprite
+
 
 func _ready():
 	close_sprite = sprite.texture
@@ -35,14 +36,33 @@ func _changeParent(new_parent) -> void:
 	G.player.global_position = pos
 
 
+func search(searchingNPC = null) -> void:
+	sprite.texture = open_sprite
+	var is_busy = my_character != null
+	
+	if is_busy:
+		var interactArea = null
+		if my_character == G.player:
+			interactArea = G.player.interactArea
+		my_character.setHide(false)
+		interact(interactArea, my_character)
+	
+	if searchingNPC != null:
+		searchingNPC.sayAfterSearching(is_busy)
+	
+	yield(get_tree().create_timer(OPEN_TIMER), "timeout")
+	sprite.texture = close_sprite
+
+
 # Character прячется через свой стандартный метод, затем вызывает interact
 # Проп перемещает его внутрь себя
-func interact(interactArea, character = G.player) -> void:
-	interactArea.HideLabels = character.is_hiding
+func interact(interactArea = null, character = G.player) -> void:
+	if interactArea != null:
+		interactArea.HideLabels = character.is_hiding
 	character.hiding_in_prop = character.is_hiding
 	
 	if character.is_hiding:
-		if is_busy:
+		if my_character != null:
 			print("character " + str(character.name) + "is trying to hide in busy spot")
 			return
 		
@@ -54,9 +74,9 @@ func interact(interactArea, character = G.player) -> void:
 		sprite.texture = open_sprite
 		yield(get_tree().create_timer(OPEN_TIMER), "timeout")
 		sprite.texture = close_sprite
-		is_busy = true
+		my_character = character
 	else:
 		character.global_position = oldPlace
 		_changeCollision(1)
 		_changeParent(ySort)
-		is_busy = false
+		my_character = null

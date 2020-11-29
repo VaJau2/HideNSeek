@@ -22,7 +22,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DialogueTextWithoutIcon" type="Label" parent="DialogueBackground"]
+[node name="DialogueText" type="Label" parent="DialogueBackground"]
 anchor_right = 1.0
 margin_left = 17.0
 margin_top = 12.0
@@ -32,29 +32,6 @@ rect_scale = Vector2( 0.9, 0.9 )
 theme = ExtResource( 2 )
 text = "> тестовый текст"
 valign = 1
-
-[node name="DialogueText" type="Label" parent="DialogueBackground"]
-anchor_right = 1.0
-margin_left = 141.0
-margin_top = 12.0
-margin_right = -11.0
-margin_bottom = 59.0
-rect_scale = Vector2( 0.9, 0.9 )
-theme = ExtResource( 2 )
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="icon" type="TextureRect" parent="DialogueBackground"]
-margin_left = 26.0
-margin_top = 13.0
-margin_right = 80.0
-margin_bottom = 67.0
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Buttons" type="Control" parent="DialogueBackground"]
 visible = false

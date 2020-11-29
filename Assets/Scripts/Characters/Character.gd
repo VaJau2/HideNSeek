@@ -7,11 +7,16 @@ extends KinematicBody2D
 class_name Character
 
 #переменные состояния
-#TODO: добавить состояние is_searching
+var state = G.STATE.IDLE
+
+enum waitStates {waiting, searching, none}
+var waitState = waitStates.none
+
+var is_running = false
 var is_hiding = false
 var hiding_in_prop = false
-var is_running = false
 
+#переменные для перемещения
 onready var audi = get_node("audi")
 onready var anim = get_node("anim")
 onready var sprite = get_node("Sprite")
@@ -31,11 +36,6 @@ const MATERIAL_ACCELS = {
 	"ice": 400
 }
 
-func showMessage(text: String, timer = 3) -> void:
-	messageLabel.text = text
-	messageTimer = timer
-	messageCount = true
-
 
 func changeAnimation(newAnimation: String) -> void:
 	anim.current_animation = newAnimation
@@ -43,20 +43,16 @@ func changeAnimation(newAnimation: String) -> void:
 
 func setHide(hide_on: bool) -> void:
 	is_hiding = hide_on
-	
-	if is_hiding:
-		changeAnimation("hide")
-	else:
-		changeAnimation("idle")
+	changeAnimation("hide" if is_hiding else "idle")
 
 
-func updateVelocity(delta: float):
+func updateVelocity(delta: float) -> void:
 	var temp_speed = run_speed if (is_running) else speed
 	var temp_anim = "idle"
 	if dir.length() > 0:
 		temp_anim = "run" if (is_running) else "walk"
 	
-	if !is_hiding:
+	if !is_hiding && (waitState == waitStates.none):
 		velocity = velocity.move_toward(dir * temp_speed, acceleration * delta)
 		changeAnimation(temp_anim)
 	else:
