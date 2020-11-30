@@ -12,6 +12,7 @@ var my_character = null
 
 export var open_sprite: Resource
 export var hide_animation = "hide"
+export var free_camera_radius = 200
 
 onready var sprite = get_node("Sprite")
 onready var hidePlace = get_node("hidePlace")
@@ -66,13 +67,15 @@ func interact(interactArea = null, character = G.player) -> void:
 		return 
 	
 	if interactArea != null:
-		interactArea.HideLabels = character.is_hiding
+		interactArea.hideLabels = character.is_hiding
 	character.hiding_in_prop = character.is_hiding
 	
 	if character.is_hiding:
 		if my_character != null:
 			print("character " + str(character.name) + "is trying to hide in busy spot")
 			return
+		if character == G.player:
+			character.hidingCamera.setCurrent(global_position, free_camera_radius)
 		
 		_changeCollision(0)
 		_changeParent(hidePlace)

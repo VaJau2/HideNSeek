@@ -9,7 +9,7 @@
 [ext_resource path="res://Assets/Scripts/YSortUngrouping.gd" type="Script" id=7]
 [ext_resource path="res://Objects/Interface/DialogueMenu.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Assets/Sprites/Shadows/treeShadow.png" type="Texture" id=9]
-[ext_resource path="res://Assets/Scripts/hidingCamera.gd" type="Script" id=10]
+[ext_resource path="res://Assets/Scripts/HidingCamera.gd" type="Script" id=10]
 [ext_resource path="res://Assets/Scripts/Furniture/StepsMaterial.gd" type="Script" id=11]
 [ext_resource path="res://Objects/Characters/Player.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Assets/Sprites/Trees/tree1_open.png" type="Texture" id=13]
@@ -536,6 +536,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 

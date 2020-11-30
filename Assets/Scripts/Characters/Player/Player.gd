@@ -5,6 +5,8 @@ extends Character
 # Доступен глобально через G.player
 #-----
 
+const HIDE_IN_AIR_CAMERA_RADIUS = 300
+
 onready var hidingCamera = get_node("/root/Main/hidingCamera")
 onready var mainCamera = get_node("Camera")
 onready var interactArea = get_node("interactArea")
@@ -24,7 +26,7 @@ func setHide(hide_on: bool) -> void:
 	hidingCamera.set_process(is_hiding)
 	if is_hiding:
 		hidingCamera.global_position = mainCamera.global_position
-		hidingCamera.current = true
+		hidingCamera.setCurrent(global_position, HIDE_IN_AIR_CAMERA_RADIUS)
 	else:
 		mainCamera.current = true
 

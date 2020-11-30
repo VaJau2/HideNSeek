@@ -26,7 +26,7 @@ var useButtons = {
 	"hide": "ui_hide"
 }
 
-var HideLabels = false
+var hideLabels = false
 
 
 func _spawnLabels() -> void:
@@ -37,7 +37,7 @@ func _spawnLabels() -> void:
 
 
 func _showLabels() -> void:
-	if !HideLabels:
+	if !hideLabels:
 		var leftOn = _objIsLefter()
 		leftLabel.visible = leftOn
 		rightLabel.visible = !leftOn
@@ -54,10 +54,10 @@ func _hideLabels() -> void:
 			rightLabel.visible = false
 
 
-func _respawnLabels(objI: int) -> void:
+func _respawnLabels(_objI: int) -> void:
 	_hideLabels()
-	tempInteractObj = interactObjectsArray[objI]
-	tempHint = hintsArray[objI]
+	tempInteractObj = interactObjectsArray[_objI]
+	tempHint = hintsArray[_objI]
 	_spawnLabels()
 
 
@@ -65,7 +65,7 @@ func _objIsLefter() -> bool:
 	return tempInteractObj.global_position.x > get_parent().global_position.x
 
 
-func _getClosestObject():
+func _getClosestObject() -> void:
 	if tempInteractObj != interactObjectsArray[objI]:
 		var tempDist = tempInteractObj.global_position.distance_to(G.player.global_position)
 		var newDist = interactObjectsArray[objI].global_position.distance_to(G.player.global_position)
@@ -94,7 +94,7 @@ func _checkHideSpot(body) -> bool:
 	return false;
 
 
-func _addInteractObject(newObject, hint):
+func _addInteractObject(newObject, hint) -> void:
 	if tempInteractObj == null:
 		tempInteractObj = newObject
 		tempHint = hint

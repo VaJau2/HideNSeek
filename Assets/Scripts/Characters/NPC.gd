@@ -163,7 +163,7 @@ func interact(interactArea) -> void:
 	if dialogue_id.length() > 0:
 		setFlipX(G.player.global_position.x < global_position.x)
 		tempInteractArea = interactArea
-		tempInteractArea.HideLabels = true
+		tempInteractArea.hideLabels = true
 		G.dialogueMenu.StartDialogue(self, dialogue_id)
 	elif phraseSection.length() > 0:
 		showMessage(phraseSection, phraseCode)
@@ -171,7 +171,7 @@ func interact(interactArea) -> void:
 
 func afterInteract() -> void:
 	if tempInteractArea:
-		tempInteractArea.HideLabels = false
+		tempInteractArea.hideLabels = false
 
 
 func _ready():

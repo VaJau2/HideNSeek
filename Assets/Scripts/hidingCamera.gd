@@ -10,6 +10,22 @@ const SPEED_KEY = 4
 const SPEED_FAST_KEY = 10
 const SPEED_MOUSE = 0.02
 
+var cameraCenter: Vector2
+var maxRadius: float
+
+
+func setCurrent(_cameraCenter: Vector2, _maxRadius: float):
+	cameraCenter = _cameraCenter
+	maxRadius = _maxRadius
+	current = true
+	set_process(true)
+
+
+func _isClose(dir: Vector2, speedModifier: float):
+	var newPosition = global_position + dir * speedModifier
+	var newDistance = newPosition.distance_to(cameraCenter)
+	return newDistance < maxRadius
+
 
 func _ready():
 	set_process(false)
@@ -26,10 +42,12 @@ func _process(_delta):
 	elif (Input.is_action_pressed("ui_right")):
 		dir.x = 1
 	
+	var speedModifier = SPEED_KEY
 	if (Input.is_action_pressed("ui_shift")):
-		position += dir * SPEED_FAST_KEY
-	else:
-		position += dir * SPEED_KEY
+		speedModifier = SPEED_FAST_KEY
+	
+	if dir.length() > 0 && _isClose(dir, speedModifier):
+		position += dir * speedModifier
 
 
 func _input(event):

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Objects/Characters/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Scripts/Characters/Player/Player.gd" type="Script" id=2]
-[ext_resource path="res://Assets/Scripts/Characters/Player/playerInteractArea.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Scripts/Characters/Player/PlayerInteractArea.gd" type="Script" id=3]
 [ext_resource path="res://Assets/Audio/Steps/wood/walk2.wav" type="AudioStream" id=4]
 [ext_resource path="res://Assets/Audio/Steps/wood/walk3.wav" type="AudioStream" id=5]
 [ext_resource path="res://Assets/Audio/Steps/ice/walk1.wav" type="AudioStream" id=6]
@@ -24,6 +24,7 @@
 [ext_resource path="res://Assets/Audio/Steps/snow/run2.wav" type="AudioStream" id=22]
 [ext_resource path="res://Assets/Audio/Steps/dirt/run1.wav" type="AudioStream" id=23]
 [ext_resource path="res://Assets/Audio/Steps/snow/run1.wav" type="AudioStream" id=24]
+
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 43.9174, 34.1863 )

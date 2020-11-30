@@ -28,9 +28,6 @@ export var stepsRunArray = {
 	"ice": []
 }
 
-func _ready():
-	var tempMaterials = ["snow", "wood", "dirt", "ice"]
-
 func _process(delta):
 	if parent.velocity.length() > 0:
 		if timer > 0:
