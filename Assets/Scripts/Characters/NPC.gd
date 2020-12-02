@@ -160,7 +160,7 @@ func _on_seekArea_body_exited(body):
 
 
 func interact(interactArea) -> void:
-	if dialogue_id.length() > 0:
+	if dialogue_id.length() > 0 && !G.dialogueMenu.isOn():
 		setFlipX(G.player.global_position.x < global_position.x)
 		tempInteractArea = interactArea
 		tempInteractArea.hideLabels = true

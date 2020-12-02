@@ -8,8 +8,11 @@ extends Control
 
 const TEXT_SPEED = 2
 
+onready var inputs = get_node("../gamepadCheck")
+
 onready var dialogueMenu: ColorRect = get_node("DialogueBackground")
 onready var dialogueText: Label = get_node("DialogueBackground/DialogueText")
+onready var skipButton: Label = get_node("DialogueBackground/SpaceToContinue")
 
 onready var buttons: Control = get_node("DialogueBackground/Buttons")
 onready var yesButton: Control = buttons.get_node("Yes")
@@ -30,6 +33,10 @@ export (String, FILE, "*.json") var phrases_female_file_path: String
 var dialogues: Dictionary
 var phrases: Dictionary
 var is_animating = false
+
+
+func isOn() -> bool:
+	return dialogueMenu.is_visible()
 
 
 func animateText():
@@ -53,6 +60,7 @@ func StartDialogue(character, phrase = null):
 	var dialogue_id = phrase
 	if phrase == null:
 		dialogue_id = character.dialogue_id
+	skipButton.text = inputs.getInterfaceText("skip")
 	TextArray = [] #стираем прошлый диалог
 	buttons.visible = false
 	#проходим по словарю всех диалогов и заполняем его новыми значениями
@@ -107,7 +115,7 @@ func _process(delta):
 
 
 func _input(_event):
-	if dialogueMenu.is_visible():
+	if isOn():
 		if Input.is_action_just_pressed("ui_accept"):
 			if is_animating:
 				dialogueText.percent_visible = 1

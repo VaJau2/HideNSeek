@@ -216,6 +216,7 @@ margin_bottom = -3.99804
 rect_scale = Vector2( 0.9, 0.9 )
 theme = ExtResource( 2 )
 text = "Пробел, чтобы продолжить"
+align = 2
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://Objects/Tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Objects/Characters/NPC.tscn" type="PackedScene" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://Objects/Houses/Barn.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Assets/Scripts/Interface/Timer.gd" type="Script" id=18]
 [ext_resource path="res://Assets/Fonts/RusFontTheme.tres" type="Theme" id=19]
+[ext_resource path="res://Assets/Scripts/Interface/GamepadCheck.gd" type="Script" id=20]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 37.5189, 10 )
@@ -539,6 +540,11 @@ __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
+
+[node name="gamepadCheck" type="Node" parent="canvas"]
+script = ExtResource( 20 )
+keyboard_json = "res://Assets/json/keys_keyboard.json"
+gamepad_json = "res://Assets/json/keys_gamepad.json"
 
 [node name="hidingCamera" type="Camera2D" parent="."]
 script = ExtResource( 10 )

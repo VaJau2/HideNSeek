@@ -8,6 +8,7 @@ extends Area2D
 #-----
 
 var theme = preload("res://Assets/Fonts/RusFontTheme.tres")
+onready var inputs = get_node("/root/Main/canvas/gamepadCheck")
 
 var tempInteractObj = null
 var tempHint = "dialogue"
@@ -17,10 +18,6 @@ var objI = 0
 
 var leftLabel = null
 var rightLabel = null
-var hints = {
-	"dialogue": "Е - поговорить",
-	"hide": "H - спрятаться"
-}
 var useButtons = {
 	"dialogue": "ui_use",
 	"hide": "ui_hide"
@@ -32,8 +29,8 @@ var hideLabels = false
 func _spawnLabels() -> void:
 	leftLabel = tempInteractObj.get_node("hints/leftLabel")
 	rightLabel = tempInteractObj.get_node("hints/rightLabel")
-	leftLabel.text = hints[tempHint]
-	rightLabel.text = hints[tempHint]
+	leftLabel.text = inputs.getInterfaceText(tempHint)
+	rightLabel.text = inputs.getInterfaceText(tempHint)
 
 
 func _showLabels() -> void:

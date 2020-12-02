@@ -48,8 +48,3 @@ func _process(_delta):
 	
 	if dir.length() > 0 && _isClose(dir, speedModifier):
 		position += dir * speedModifier
-
-
-func _input(event):
-	if event is InputEventMouseMotion && Input.is_mouse_button_pressed(1):
-		position -= event.speed * SPEED_MOUSE
