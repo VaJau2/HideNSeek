@@ -16,7 +16,7 @@ var poniesInPlaces = true
 var ySort = null
 
 
-func startHiding(NPC: Character):
+func startHiding(searchingNPC: Character):
 	if !poniesInPlaces:
 		while ySort.setBackgroundOn():
 			yield(get_tree().create_timer(0.05), "timeout")
@@ -26,7 +26,7 @@ func startHiding(NPC: Character):
 	
 	player.setState(STATE.HIDING)
 	timer.StartTimer(HIDING_TIME)
-	NPC.setState(STATE.SEARCHING)
+	searchingNPC.setState(STATE.SEARCHING)
 	poniesInPlaces = false
 
 

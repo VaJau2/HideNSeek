@@ -36,6 +36,9 @@ const MATERIAL_ACCELS = {
 	"ice": 400
 }
 
+const SEE_IDLE_INCREMENT   = 3
+const SEE_HIDING_INCREMENT = 1
+
 
 func changeAnimation(newAnimation: String) -> void:
 	anim.current_animation = newAnimation
@@ -57,6 +60,12 @@ func updateVelocity(delta: float) -> void:
 		changeAnimation(temp_anim)
 	else:
 		velocity = Vector2(0, 0)
+
+
+func getSeeValueIncrement() -> int:
+	if hiding_in_prop: return -1
+	if is_hiding: return SEE_HIDING_INCREMENT
+	return SEE_IDLE_INCREMENT
 
 
 func _checkIceWalking() -> void:

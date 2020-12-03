@@ -15,9 +15,13 @@ var mayMove = true
 
 func setState(newState):
 	state = newState
-	if newState == G.STATE.HIDING:
-		if !(self in get_parent().characters):
-			get_parent().addCharacter(self)
+	match newState:
+		G.STATE.IDLE:
+			if is_hiding:
+				setHide(false)
+		G.STATE.HIDING:
+			if !(self in get_parent().characters):
+				get_parent().addCharacter(self)
 
 
 func setHide(hide_on: bool) -> void:
