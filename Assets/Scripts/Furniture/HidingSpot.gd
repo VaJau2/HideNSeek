@@ -27,34 +27,24 @@ func _ready():
 	close_sprite = sprite.texture
 
 
-func _changeCollision(layer) -> void:
-	G.player.collision_layer = layer
-	G.player.collision_mask = layer
-	
-
-func _changeParent(new_parent) -> void:
-	var pos = G.player.global_position
-	G.player.get_parent().remove_child(G.player)
-	new_parent.add_child(G.player)
-	G.player.global_position = pos
-
-
 func search(searchingNPC = null) -> void:
 	sprite.texture = open_sprite
 	var is_busy = my_character != null
 	may_interact = false
 	yield(get_tree().create_timer(OPEN_TIMER), "timeout")
 	may_interact = true
+	var tempCharacter = my_character
 	
 	if is_busy:
 		var interactArea = null
 		if my_character == G.player:
 			interactArea = G.player.interactArea
+		my_character.setState(G.STATE.LOST)
 		my_character.setHide(false)
 		interact(interactArea, my_character)
 	
 	if searchingNPC != null:
-		searchingNPC.sayAfterSearching(is_busy)
+		searchingNPC.sayAfterSearching(is_busy, tempCharacter)
 	
 	yield(get_tree().create_timer(OPEN_TIMER), "timeout")
 	sprite.texture = close_sprite
@@ -72,22 +62,26 @@ func interact(interactArea = null, character = G.player) -> void:
 	
 	if character.is_hiding:
 		if my_character != null:
-			print("character " + str(character.name) + "is trying to hide in busy spot")
+			character.hiding_in_prop = false
+			character.setHide(false)
 			return
 		if character == G.player:
 			character.hidingCamera.setCurrent(global_position, free_camera_radius)
 		
-		_changeCollision(0)
-		_changeParent(hidePlace)
+		my_character = character
+		character.changeCollision(0)
+		character.changeParent(hidePlace)
 		oldPlace = character.global_position
 		character.global_position = hidePlace.global_position
 		character.changeAnimation(hide_animation)
 		sprite.texture = open_sprite
 		yield(get_tree().create_timer(OPEN_TIMER), "timeout")
 		sprite.texture = close_sprite
-		my_character = character
 	else:
 		character.global_position = oldPlace
-		_changeCollision(1)
-		_changeParent(ySort)
+		character.changeCollision(1)
+		character.changeParent(ySort)
 		my_character = null
+	
+	if interactArea != null:
+			interactArea.tempInteractObj = self if character.is_hiding else null

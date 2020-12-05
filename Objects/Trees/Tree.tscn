@@ -2,13 +2,15 @@
 
 [ext_resource path="res://Assets/Sprites/Trees/tree1.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Scripts/Furniture/Tree.gd" type="Script" id=2]
-[ext_resource path="res://Assets/Fonts/RusFontTheme.tres" type="Theme" id=3]
+[ext_resource path="res://Objects/Interface/InteractHints.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.51916
 height = 38.0793
 
 [node name="Tree" type="KinematicBody2D"]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource( 2 )
 shadow_size = Vector2( 1.4, 1.3 )
 
@@ -24,26 +26,5 @@ shape = SubResource( 1 )
 show_behind_parent = true
 position = Vector2( 0, -5 )
 
-[node name="hints" type="Node2D" parent="."]
-position = Vector2( 0, -10 )
-
-[node name="leftLabel" type="Label" parent="hints"]
-margin_left = -2.0
-margin_top = -45.0
-margin_right = -2.0
-margin_bottom = -31.0
-grow_horizontal = 0
-theme = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="rightLabel" type="Label" parent="hints"]
-margin_left = 5.0
-margin_top = -45.0
-margin_right = 5.0
-margin_bottom = -31.0
-theme = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="hints" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, -5 )

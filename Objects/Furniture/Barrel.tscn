@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Assets/Sprites/Furniture/barrel/barrel_closed.png" type="Texture" id=1]
-[ext_resource path="res://Assets/Fonts/RusFontTheme.tres" type="Theme" id=2]
+[ext_resource path="res://Objects/Interface/InteractHints.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Sprites/Furniture/barrel/barrel_back.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Sprites/Furniture/barrel/barrel_open.png" type="Texture" id=4]
 [ext_resource path="res://Assets/Scripts/Furniture/HidingSpot.gd" type="Script" id=5]
@@ -11,6 +11,8 @@ radius = 3.99939
 height = 18.5552
 
 [node name="Barrel" type="KinematicBody2D"]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource( 5 )
 open_sprite = ExtResource( 4 )
 hide_animation = "sit"
@@ -34,25 +36,5 @@ texture = ExtResource( 1 )
 rotation = 1.5708
 shape = SubResource( 1 )
 
-[node name="hints" type="Node2D" parent="."]
-
-[node name="leftLabel" type="Label" parent="hints"]
-margin_left = -2.0
-margin_top = -45.0
-margin_right = -2.0
-margin_bottom = -31.0
-grow_horizontal = 0
-theme = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="rightLabel" type="Label" parent="hints"]
-margin_left = 5.0
-margin_top = -45.0
-margin_right = 5.0
-margin_bottom = -31.0
-theme = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="hints" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, -5 )

@@ -14,14 +14,10 @@ var mayMove = true
 
 
 func setState(newState):
-	state = newState
-	match newState:
-		G.STATE.IDLE:
-			if is_hiding:
-				setHide(false)
-		G.STATE.HIDING:
-			if !(self in get_parent().characters):
-				get_parent().addCharacter(self)
+	.setState(newState)
+	if newState == G.STATE.IDLE \
+	|| newState == G.STATE.LOST:
+			if is_hiding: setHide(false)
 
 
 func setHide(hide_on: bool) -> void:
@@ -39,6 +35,11 @@ func _checkHidingKey() -> void:
 	if state == G.STATE.HIDING:
 		if Input.is_action_just_pressed("ui_hide"):
 			setHide(!is_hiding)
+	if state == G.STATE.LOST:
+		if Input.is_action_just_pressed("ui_hide"):
+			showMessage("lost", "not_see", 1.5)
+		if Input.is_action_just_pressed("ui_use"):
+			showMessage("lost", "see", 1.5)
 
 
 func updateKeys():

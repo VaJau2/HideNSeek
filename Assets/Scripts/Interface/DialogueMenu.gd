@@ -83,7 +83,7 @@ func ClickNext():
 	else:
 		if buttons.visible:
 			if yesSelected:
-				G.startHiding(NPC)
+				NPC.manager.startGame(NPC)
 				
 		if (NPC.has_method("afterInteract")):
 			NPC.afterInteract()

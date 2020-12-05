@@ -4,30 +4,13 @@ extends Node
 #настроен на синглтон "G" через интерфейс движка
 #-----
 
-enum STATE {IDLE, SEARCHING, HIDING}
-
+enum STATE {IDLE, SEARCHING, HIDING, LOST}
 const HIDING_TIME = 10
 
 var player: Character
 var dialogueMenu: Control
 var timer: Label
 var randomSpots: Array
-var poniesInPlaces = true
-var ySort = null
-
-
-func startHiding(searchingNPC: Character):
-	if !poniesInPlaces:
-		while ySort.setBackgroundOn():
-			yield(get_tree().create_timer(0.05), "timeout")
-		ySort.resetPlaces()
-		while ySort.setBackgroundOff():
-			yield(get_tree().create_timer(0.05), "timeout")
-	
-	player.setState(STATE.HIDING)
-	timer.StartTimer(HIDING_TIME)
-	searchingNPC.setState(STATE.SEARCHING)
-	poniesInPlaces = false
 
 
 func getPhrase(female: bool, section: String, phrase: String):

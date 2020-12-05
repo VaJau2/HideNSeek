@@ -46,5 +46,5 @@ func _process(delta):
 			minutes -= 1
 			seconds = 60
 		else:
-			emit_signal("timeout")
 			_makeWork(false)
+			emit_signal("timeout")

@@ -63,11 +63,17 @@ func _objIsLefter() -> bool:
 
 
 func _getClosestObject() -> void:
+	#проверяем и берем текущий объект по расстоянию
 	if tempInteractObj != interactObjectsArray[objI]:
 		var tempDist = tempInteractObj.global_position.distance_to(G.player.global_position)
 		var newDist = interactObjectsArray[objI].global_position.distance_to(G.player.global_position)
 		if newDist < tempDist:
 			_respawnLabels(objI)
+	
+	#проверяем hidingSpot на случай, если его кто-то займет раньше
+	if tempInteractObj is HidingSpot:
+		if tempInteractObj.my_character != null && tempInteractObj.my_character != self:
+			_removeInteractObject(tempInteractObj)
 	
 	if objI < interactObjectsArray.size() - 1:
 		objI += 1
@@ -100,6 +106,18 @@ func _addInteractObject(newObject, hint) -> void:
 	_spawnLabels()
 
 
+func _removeInteractObject(object) -> void:
+	objI = 0
+	var deleteObjI = interactObjectsArray.find(object)
+	interactObjectsArray.remove(deleteObjI)
+	hintsArray.remove(deleteObjI)
+	if (interactObjectsArray.size() == 1):
+		_respawnLabels(0)
+	if (interactObjectsArray.size() == 0):
+		_hideLabels()
+		tempInteractObj = null
+
+
 func _on_interactArea_body_entered(body):
 	if body.name == "Player":
 		return
@@ -113,23 +131,16 @@ func _on_interactArea_body_entered(body):
 
 func _on_interactArea_body_exited(body):
 	if body in interactObjectsArray:
-		objI = 0
-		var deleteObjI = interactObjectsArray.find(body)
-		interactObjectsArray.remove(deleteObjI)
-		hintsArray.remove(deleteObjI)
-	
-	if (interactObjectsArray.size() == 1):
-		_respawnLabels(0)
-	if (interactObjectsArray.size() == 0):
-		_hideLabels()
-		tempInteractObj = null
+		_removeInteractObject(body)
 
 
 func _process(_delta):
-	if interactObjectsArray.size() > 1:
+	if interactObjectsArray.size() > 0:
 		_getClosestObject()
-		
+	
 	if tempInteractObj:
 		_showLabels()
 		if (Input.is_action_just_pressed(useButtons[tempHint])):
 			tempInteractObj.interact(self)
+	else:
+		_hideLabels()

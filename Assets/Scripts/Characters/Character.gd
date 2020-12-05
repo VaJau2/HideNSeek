@@ -6,6 +6,9 @@ extends KinematicBody2D
 
 class_name Character
 
+onready var manager = get_node("/root/Main")
+export var female: bool
+
 #переменные состояния
 var state = G.STATE.IDLE
 
@@ -36,17 +39,44 @@ const MATERIAL_ACCELS = {
 	"ice": 400
 }
 
-const SEE_IDLE_INCREMENT   = 3
-const SEE_HIDING_INCREMENT = 1
+const SEE_IDLE_INCREMENT   = 1.0
+const SEE_HIDING_INCREMENT = 0.5
+
+
+func showMessage(section: String, phrase: String, timer = 3) -> void:
+	var text = G.getPhrase(female, section, phrase)
+	messageLabel.text = text
+	messageTimer = timer
+	messageCount = true
 
 
 func changeAnimation(newAnimation: String) -> void:
-	anim.current_animation = newAnimation
+	anim.play(newAnimation)
+
+
+func changeCollision(layer: int) -> void:
+	collision_layer = layer
+	collision_mask = layer
+
+
+func changeParent(new_parent) -> void:
+	var pos = global_position
+	get_parent().remove_child(self)
+	new_parent.add_child(self)
+	global_position = pos
 
 
 func setHide(hide_on: bool) -> void:
 	is_hiding = hide_on
 	changeAnimation("hide" if is_hiding else "idle")
+
+
+func setState(newState) -> void:
+	state = newState
+	if state == G.STATE.LOST:
+		changeCollision(2)
+	else:
+		changeCollision(1)
 
 
 func updateVelocity(delta: float) -> void:
@@ -62,8 +92,8 @@ func updateVelocity(delta: float) -> void:
 		velocity = Vector2(0, 0)
 
 
-func getSeeValueIncrement() -> int:
-	if hiding_in_prop: return -1
+func getSeeValueIncrement() -> float:
+	if hiding_in_prop: return -1.0
 	if is_hiding: return SEE_HIDING_INCREMENT
 	return SEE_IDLE_INCREMENT
 
@@ -75,6 +105,10 @@ func _checkIceWalking() -> void:
 		acceleration = MATERIAL_ACCELS.snow
 	else:
 		acceleration = MATERIAL_ACCELS.ice
+
+
+func _ready():
+	manager.addCharacter(self)
 
 
 func _process(delta):

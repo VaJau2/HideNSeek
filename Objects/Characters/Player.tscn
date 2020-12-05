@@ -29,9 +29,11 @@
 extents = Vector2( 43.9174, 34.1863 )
 
 [node name="Player" instance=ExtResource( 1 )]
-modulate = Color( 0.423529, 0.501961, 0.862745, 1 )
 input_pickable = true
 script = ExtResource( 2 )
+
+[node name="Sprite" parent="." index="2"]
+modulate = Color( 0.427451, 0.486275, 0.878431, 1 )
 
 [node name="Camera" type="Camera2D" parent="." index="3"]
 current = true

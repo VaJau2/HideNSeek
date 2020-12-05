@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Assets/Scripts/Characters/Character.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Sprites/Characters/testPonySmall.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Fonts/RusFontTheme.tres" type="Theme" id=3]
+[ext_resource path="res://Objects/Interface/InteractHints.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/Fonts/YellowTheme.tres" type="Theme" id=4]
 [ext_resource path="res://Assets/Scripts/Characters/SoundSteps.gd" type="Script" id=5]
 [ext_resource path="res://Assets/Sprites/Shadows/ponyShadow.png" type="Texture" id=6]
@@ -194,28 +194,7 @@ anims/use = SubResource( 6 )
 anims/wait = SubResource( 7 )
 anims/walk = SubResource( 8 )
 
-[node name="hints" type="Node2D" parent="."]
-
-[node name="leftLabel" type="Label" parent="hints"]
-margin_left = -2.0
-margin_top = -45.0
-margin_right = -2.0
-margin_bottom = -31.0
-grow_horizontal = 0
-theme = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="rightLabel" type="Label" parent="hints"]
-margin_left = 5.0
-margin_top = -45.0
-margin_right = 5.0
-margin_bottom = -31.0
-theme = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="hints" parent="." instance=ExtResource( 3 )]
 
 [node name="message" type="Label" parent="."]
 margin_left = -111.0

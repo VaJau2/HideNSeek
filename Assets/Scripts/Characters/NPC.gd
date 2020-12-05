@@ -1,17 +1,17 @@
 extends Character
 
 #-----
-# Скрипт для неписей обоих видов 
+# Скрипт для неписей обоих видов (searching | hiding)
 # тк хз как здесь делать смену класса при смене типа
 #-----
 
 #переменные для диалогов
-export var female: bool
 export var dialogue_id: String
 export var phraseSection: String
 export var phraseCode: String
 var tempInteractArea = null
-var startDialogueId = ""
+var startDialogue = ""
+var startPhrase   = ""
 
 #переменные для навигации по карте
 const RUN_DISTANCE = 150
@@ -30,10 +30,11 @@ var path: PoolVector2Array
 
 #переменные для ведущего
 const SEARCH_CHANCE = 0.7
-const FAIL_SAY_CHANCE = 0.5
+const SAY_CHANCE = 0.5
+const LOST_SAY_CHANCE = 0.2
 const SEARCHED_PLACES_COUNT = 7
-const NEED_CHECK_VALUE = 0.1
-const CHECK_SEE_TIMER = 0.5
+const NEED_CHECK_VALUE = 0.2
+const CHECK_SEE_TIMER = 0.6
 onready var seekArea = get_node("seekArea")
 onready var raycast = get_node("raycast")
 var searchedPlaceNames = []
@@ -43,45 +44,62 @@ var checkLastSeeTimer = 0
 
 #переменные для прячущегося
 const HIDE_CHANCE = 0.8
-
-
-func showMessage(section: String, phrase: String, timer = 3) -> void:
-	var text = G.getPhrase(female, section, phrase)
-	messageLabel.text = text
-	messageTimer = timer
-	messageCount = true
+const UPDATE_FOLLOW_TIME = 1.5
+var update_follow_timer = 0
 
 
 func setState(newState) -> void:
-	state = newState
-	match newState:
-		G.STATE.IDLE:
-			if startDialogueId.length() > 0:
-				dialogue_id = "TestAgain"
-				targetPosition = Vector2.ZERO
-		G.STATE.SEARCHING:
-			dialogue_id = ""
-			waitTime = G.HIDING_TIME
-			waitState = waitStates.waiting
-			changeAnimation("wait")
-			raycast.enabled = true
+	.setState(newState)
+	if newState == G.STATE.IDLE || newState == G.STATE.LOST:
+		if is_hiding: setHide(false)
+		checkLastSeeTimer = 0
+		targetPlace       = null
+		targetPosition = Vector2.ZERO
+		
+		if newState == G.STATE.LOST \
+		&& randf() <= SAY_CHANCE:
+			showMessage("hiding", "fail", 2)
+		
+		if newState == G.STATE.IDLE:
+			phraseCode  = startPhrase
+			dialogue_id = startDialogue
+		return
 	
-	#добавляем стартовую позицию для возвращения туда
-	#во время перезапуска
-	if newState != G.STATE.IDLE:
-		if !(self in get_parent().characters):
-			get_parent().addCharacter(self)
+	if newState == G.STATE.SEARCHING:
+		dialogue_id = ""
+		waitTime    = G.HIDING_TIME + 0.1
+		waitState   = waitStates.waiting
+		changeAnimation("wait")
+	
+	if newState == G.STATE.HIDING:
+		if randf() <= SAY_CHANCE:
+			showMessage("hiding", "start", 2)
+	phraseCode = ""
 
 
 func goTo(position: Vector2, distance = null) -> void:
 	targetPosition = position
-	path = navigation.get_simple_path(global_position, targetPosition)
 	tempCloseDistance = distance if distance else CLOSE_DISTANCE
+	if global_position.distance_to(targetPosition) > tempCloseDistance:
+		path = navigation.get_simple_path(global_position, targetPosition)
 
 
-func _getRandomPoint() -> void:
+func _getNextPoint(delta) -> void:
 	if state == G.STATE.IDLE || is_hiding:
 		return
+	
+	#преследуем ведущего, если проиграли
+	if state == G.STATE.LOST:
+		#позиция ведущего обновляется каждую секунду
+		#или когда непись пришел на последнюю обновленную позицию
+		if update_follow_timer > 0:
+			update_follow_timer -= delta
+			if targetPosition == Vector2.ZERO:
+				update_follow_timer = 0
+		else:
+			update_follow_timer = UPDATE_FOLLOW_TIME
+			targetPlace = manager.searchingCharacter
+			goTo(manager.searchingCharacter.global_position, CLOSE_DISTANCE * 2)
 	
 	if targetPosition == Vector2.ZERO:
 		var randNum = randi() % G.randomSpots.size()
@@ -95,14 +113,17 @@ func setFlipX(flipOn: bool) -> void:
 	sprite.flip_h = flipOn
 
 
-func sayAfterSearching(found: bool) -> void:
+func sayAfterSearching(found: bool, character = null) -> void:
 	if found:
 		showMessage("searching", "found", 2)
-		setState(G.STATE.IDLE)
-		G.player.setState(G.STATE.IDLE)
+		if character:
+			manager.findCharacter(character)
 	else:
-		if randf() <= FAIL_SAY_CHANCE:
-			showMessage("searching", "fail", 2)
+		if randf() <= SAY_CHANCE:
+			if manager.getHidingCount() > 1:
+				showMessage("searching", "fail", 2)
+			else:
+				showMessage("searching", "fail_one", 2)
 
 
 func _sayAfterWaiting() -> void:
@@ -141,6 +162,12 @@ func _updateWalking(delta) -> void:
 						changeAnimation("use")
 						targetPlace.search(self)
 						waitTime = SEARCH_WAIT_TIME
+				
+				if targetPlace is Character && state == G.STATE.LOST:
+					var dist = global_position.distance_to(targetPlace.global_position) 
+					if dist < RUN_DISTANCE:
+						if randf() <= LOST_SAY_CHANCE:
+							showMessage("lost", "random", 2)
 				targetPlace = null
 
 
@@ -162,6 +189,9 @@ func _checkSeeCharacters(delta) -> void:
 	if charactersISee.size() > 0:
 		for chName in charactersISee:
 			var body = charactersISee[chName].character
+			if body.state != G.STATE.HIDING:
+				return
+			
 			var increment = body.getSeeValueIncrement() * delta
 			charactersISee[chName].seeValue += increment
 			
@@ -179,9 +209,7 @@ func _checkSeeCharacters(delta) -> void:
 			
 			#палим
 			if charactersISee[chName].seeValue >= CHECK_SEE_TIMER:
-				sayAfterSearching(true)
-				body.setState(G.STATE.IDLE) 
-				setState(G.STATE.IDLE)
+				sayAfterSearching(true, body)
 
 
 func _on_seekArea_body_entered(body):
@@ -191,6 +219,7 @@ func _on_seekArea_body_entered(body):
 	if state == G.STATE.HIDING:
 		if body is HidingSpot \
 			&& !(targetPlace is HidingSpot) \
+			&& body.my_character == null \
 			&& randf() <= HIDE_CHANCE:
 				targetPlace = body
 				goTo(body.global_position)
@@ -234,8 +263,11 @@ func afterInteract() -> void:
 
 
 func _ready():
-	changeAnimation("idle")
-	startDialogueId = dialogue_id
+	startDialogue = dialogue_id
+	startPhrase   = phraseCode
+	#чтоб не моргали одинаково
+	yield(get_tree().create_timer(randf() * 2), "timeout")
+	anim.seek(0, true)
 
 
 func _process(delta):
@@ -249,4 +281,4 @@ func _process(delta):
 		if _checkLastSeePoint(delta):
 			return
 	
-	_getRandomPoint()
+	_getNextPoint(delta)
