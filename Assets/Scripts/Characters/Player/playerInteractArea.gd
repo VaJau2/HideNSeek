@@ -20,7 +20,8 @@ var leftLabel = null
 var rightLabel = null
 var useButtons = {
 	"dialogue": "ui_use",
-	"hide": "ui_hide"
+	"hide": "ui_hide",
+	"search": "ui_use"
 }
 
 var hideLabels = false
@@ -71,9 +72,11 @@ func _getClosestObject() -> void:
 			_respawnLabels(objI)
 	
 	#проверяем hidingSpot на случай, если его кто-то займет раньше
-	if tempInteractObj is HidingSpot:
-		if tempInteractObj.my_character != null && tempInteractObj.my_character != self:
-			_removeInteractObject(tempInteractObj)
+	if G.player.state == G.STATE.HIDING \
+	&& tempInteractObj is HidingSpot \
+	&& tempInteractObj.my_character != null \
+	&& tempInteractObj.my_character != self:
+		_removeInteractObject(tempInteractObj)
 	
 	if objI < interactObjectsArray.size() - 1:
 		objI += 1
@@ -90,11 +93,14 @@ func _checkDialogue(body) -> bool:
 	return false
 
 
-func _checkHideSpot(body) -> bool:
+func _checkHideSpot(body) -> String:
 	if G.player.state == G.STATE.HIDING:
 		if body is HidingSpot && body.my_character == null:
-			return true;
-	return false;
+			return "hide"
+	if G.player.state == G.STATE.SEARCHING:
+		if body is HidingSpot:
+			return "search"
+	return "";
 
 
 func _addInteractObject(newObject, hint) -> void:
@@ -119,14 +125,15 @@ func _removeInteractObject(object) -> void:
 
 
 func _on_interactArea_body_entered(body):
-	if body.name == "Player":
+	if body == G.player:
 		return
 	
 	if _checkDialogue(body):
 		_addInteractObject(body, "dialogue")
 	
-	if _checkHideSpot(body):
-		_addInteractObject(body, "hide")
+	var hideButton = _checkHideSpot(body)
+	if hideButton != "":
+		_addInteractObject(body, hideButton)
 
 
 func _on_interactArea_body_exited(body):
@@ -142,5 +149,7 @@ func _process(_delta):
 		_showLabels()
 		if (Input.is_action_just_pressed(useButtons[tempHint])):
 			tempInteractObj.interact(self)
+			if tempHint == "search":
+				G.player.waitTime = G.player.SEARCH_WAIT_TIME
 	else:
 		_hideLabels()

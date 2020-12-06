@@ -3,6 +3,10 @@ extends Character
 #-----
 # Скрипт игрока
 # Доступен глобально через G.player
+#
+# Нод игрока должен быть первым в списке YSort
+# чтоб игра не учитывала его при выборе другого ведущего
+# если тот не хочет
 #-----
 
 const HIDE_IN_AIR_CAMERA_RADIUS = 300
@@ -17,7 +21,8 @@ func setState(newState):
 	.setState(newState)
 	if newState == G.STATE.IDLE \
 	|| newState == G.STATE.LOST:
-			if is_hiding: setHide(false)
+		if is_hiding: setHide(false)
+		if hiding_in_prop: myProp.interact(interactArea, self)
 
 
 func setHide(hide_on: bool) -> void:
@@ -67,7 +72,13 @@ func _ready():
 func _process(delta):
 	dir = Vector2(0, 0)
 	is_running = false
-	_checkHidingKey()
 	
+	if waitTime > 0:
+		velocity = Vector2(0, 0)
+		waitTime -= delta
+		return
+	
+	sayAfterWaiting()
+	_checkHidingKey()
 	updateKeys()
 	updateVelocity(delta)

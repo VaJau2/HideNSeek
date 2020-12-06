@@ -536,7 +536,7 @@ collision_mask = 2
 
 [node name="NPC" parent="YSort" instance=ExtResource( 2 )]
 position = Vector2( 700.473, 58.8055 )
-dialogue_id = "Test"
+dialogue_id = "Start"
 
 [node name="NPC-1" parent="YSort" instance=ExtResource( 22 )]
 position = Vector2( 771.289, 59.3299 )
@@ -551,6 +551,16 @@ position = Vector2( 1.01416, 0.0101624 )
 navpoly = SubResource( 31 )
 
 [node name="canvas" type="CanvasLayer" parent="."]
+
+[node name="background" type="ColorRect" parent="canvas"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0 )
+script = SubResource( 32 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
 
 [node name="Timer" type="Label" parent="canvas"]
 anchor_left = 0.5
@@ -570,16 +580,6 @@ __meta__ = {
 dialogue_file_path = "res://Assets/json/dialogues.json"
 phrases_male_file_path = "res://Assets/json/phrases_male.json"
 phrases_female_file_path = "res://Assets/json/phrases_female.json"
-
-[node name="background" type="ColorRect" parent="canvas"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0 )
-script = SubResource( 32 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
 
 [node name="gamepadCheck" type="Node" parent="canvas"]
 script = ExtResource( 20 )

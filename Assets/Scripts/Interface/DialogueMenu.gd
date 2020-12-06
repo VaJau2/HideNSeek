@@ -9,6 +9,7 @@ extends Control
 const TEXT_SPEED = 2
 
 onready var inputs = get_node("../gamepadCheck")
+onready var manager = get_node("/root/Main")
 
 onready var dialogueMenu: ColorRect = get_node("DialogueBackground")
 onready var dialogueText: Label = get_node("DialogueBackground/DialogueText")
@@ -22,6 +23,7 @@ onready var noSelectedBack: Control = buttons.get_node("No/selected")
 var yesSelected = true
 
 var NPC
+var tempDialogueId: String
 var TextArray: Array
 var needAnswerId = -1
 var i = 0
@@ -54,18 +56,18 @@ func updateDialogueText():
 	animateText()
 
 
-func StartDialogue(character, phrase = null):
+func StartDialogue(character, phrase = ""):
 	i = 0
 	NPC = character
-	var dialogue_id = phrase
+	tempDialogueId = phrase
 	if phrase == null:
-		dialogue_id = character.dialogue_id
+		tempDialogueId = character.dialogue_id
 	skipButton.text = inputs.getInterfaceText("skip")
 	TextArray = [] #стираем прошлый диалог
 	buttons.visible = false
 	#проходим по словарю всех диалогов и заполняем его новыми значениями
-	for phrase_num in dialogues[dialogue_id]:
-		var tempDict = dialogues[dialogue_id][phrase_num]
+	for phrase_num in dialogues[tempDialogueId]:
+		var tempDict = dialogues[tempDialogueId][phrase_num]
 		TextArray.append(tempDict["text"])
 		if(tempDict.has("needAnswer") && tempDict["needAnswer"] == "true"):
 			needAnswerId = int(phrase_num)
@@ -82,9 +84,20 @@ func ClickNext():
 		updateDialogueText()
 	else:
 		if buttons.visible:
-			if yesSelected:
-				NPC.manager.startGame(NPC)
-				
+			match tempDialogueId:
+				manager.DIALOGUE_CODE.START:
+					if yesSelected:
+						StartDialogue(NPC, manager.DIALOGUE_CODE.CHOOSE)
+						return
+				manager.DIALOGUE_CODE.CHOOSE:
+					if yesSelected:
+						manager.startGame(G.player)
+					else:
+						manager.startGame()
+				_:
+					if yesSelected:
+						manager.startGame()
+		
 		if (NPC.has_method("afterInteract")):
 			NPC.afterInteract()
 		dialogueMenu.hide()

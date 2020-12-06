@@ -27,7 +27,8 @@ func _ready():
 	close_sprite = sprite.texture
 
 
-func search(searchingNPC = null) -> void:
+func search(searchingChar) -> void:
+	searchingChar.changeAnimation("use")
 	sprite.texture = open_sprite
 	var is_busy = my_character != null
 	may_interact = false
@@ -40,11 +41,8 @@ func search(searchingNPC = null) -> void:
 		if my_character == G.player:
 			interactArea = G.player.interactArea
 		my_character.setState(G.STATE.LOST)
-		my_character.setHide(false)
-		interact(interactArea, my_character)
 	
-	if searchingNPC != null:
-		searchingNPC.sayAfterSearching(is_busy, tempCharacter)
+	searchingChar.sayAfterSearching(is_busy, tempCharacter)
 	
 	yield(get_tree().create_timer(OPEN_TIMER), "timeout")
 	sprite.texture = close_sprite
@@ -55,6 +53,10 @@ func search(searchingNPC = null) -> void:
 func interact(interactArea = null, character = G.player) -> void:
 	if !may_interact:
 		return 
+	
+	if character.state == G.STATE.SEARCHING:
+		search(character)
+		return
 	
 	if interactArea != null:
 		interactArea.hideLabels = character.is_hiding
@@ -69,6 +71,7 @@ func interact(interactArea = null, character = G.player) -> void:
 			character.hidingCamera.setCurrent(global_position, free_camera_radius)
 		
 		my_character = character
+		character.myProp = self
 		character.changeCollision(0)
 		character.changeParent(hidePlace)
 		oldPlace = character.global_position
@@ -81,6 +84,7 @@ func interact(interactArea = null, character = G.player) -> void:
 		character.global_position = oldPlace
 		character.changeCollision(1)
 		character.changeParent(ySort)
+		character.myProp = null
 		my_character = null
 	
 	if interactArea != null:

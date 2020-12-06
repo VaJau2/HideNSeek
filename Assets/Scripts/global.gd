@@ -6,6 +6,8 @@ extends Node
 
 enum STATE {IDLE, SEARCHING, HIDING, LOST}
 const HIDING_TIME = 10
+const SEARCHING_TIME = 60
+const ADD_TIME = 20
 
 var player: Character
 var dialogueMenu: Control

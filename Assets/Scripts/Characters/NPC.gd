@@ -6,20 +6,18 @@ extends Character
 #-----
 
 #переменные для диалогов
-export var dialogue_id: String
-export var phraseSection: String
-export var phraseCode: String
+export var dialogue_id    = ""
+export var phraseSection = ""
+export var phraseCode    = ""
+var isStartGameNPC   = false
+var startPhrase      = ""
 var tempInteractArea = null
-var startDialogue = ""
-var startPhrase   = ""
 
 #переменные для навигации по карте
 const RUN_DISTANCE = 150
 const CLOSE_DISTANCE = 35
 const PATH_DISTANCE = 20
 const WAIT_TIME = 0.5
-const SEARCH_WAIT_TIME = 1
-var waitTime = 0
 
 var targetPlace = null
 var targetPosition = Vector2.ZERO
@@ -29,9 +27,9 @@ onready var navigation = get_node("/root/Main/navigation")
 var path: PoolVector2Array
 
 #переменные для ведущего
-const SEARCH_CHANCE = 0.7
+const SEARCH_CHANCE = 0.85
 const SAY_CHANCE = 0.5
-const LOST_SAY_CHANCE = 0.2
+const LOST_SAY_CHANCE = 0.05
 const SEARCHED_PLACES_COUNT = 7
 const NEED_CHECK_VALUE = 0.2
 const CHECK_SEE_TIMER = 0.6
@@ -52,6 +50,8 @@ func setState(newState) -> void:
 	.setState(newState)
 	if newState == G.STATE.IDLE || newState == G.STATE.LOST:
 		if is_hiding: setHide(false)
+		if hiding_in_prop: myProp.interact(null, self)
+		
 		checkLastSeeTimer = 0
 		targetPlace       = null
 		targetPosition = Vector2.ZERO
@@ -62,18 +62,16 @@ func setState(newState) -> void:
 		
 		if newState == G.STATE.IDLE:
 			phraseCode  = startPhrase
-			dialogue_id = startDialogue
 		return
 	
 	if newState == G.STATE.SEARCHING:
-		dialogue_id = ""
-		waitTime    = G.HIDING_TIME + 0.1
-		waitState   = waitStates.waiting
-		changeAnimation("wait")
+		waitTime += 0.1
 	
 	if newState == G.STATE.HIDING:
 		if randf() <= SAY_CHANCE:
 			showMessage("hiding", "start", 2)
+	
+	dialogue_id = ""
 	phraseCode = ""
 
 
@@ -115,9 +113,7 @@ func setFlipX(flipOn: bool) -> void:
 
 func sayAfterSearching(found: bool, character = null) -> void:
 	if found:
-		showMessage("searching", "found", 2)
-		if character:
-			manager.findCharacter(character)
+		.sayAfterSearching(found, character)
 	else:
 		if randf() <= SAY_CHANCE:
 			if manager.getHidingCount() > 1:
@@ -126,17 +122,29 @@ func sayAfterSearching(found: bool, character = null) -> void:
 				showMessage("searching", "fail_one", 2)
 
 
-func _sayAfterWaiting() -> void:
-	if waitState == waitStates.waiting:
-		showMessage("searching", "start", 2)
-	waitState = waitStates.none
+
+func _interactWithTarget() -> void:
+	if targetPlace is HidingSpot:
+		if state == G.STATE.HIDING:
+			setHide(true)
+			targetPlace.interact(null, self)
+		if state == G.STATE.SEARCHING:
+			targetPlace.interact(null, self)
+			waitState = waitStates.searching
+			waitTime = SEARCH_WAIT_TIME
+	
+	if targetPlace is Character && state == G.STATE.LOST:
+		var dist = global_position.distance_to(targetPlace.global_position) 
+		if dist < RUN_DISTANCE:
+			if randf() <= LOST_SAY_CHANCE:
+				showMessage("lost", "random", 2)
 
 
 func _updateWalking(delta) -> void:
 	if waitTime > 0:
 		waitTime -= delta
 	elif targetPosition != Vector2.ZERO:
-		_sayAfterWaiting()
+		sayAfterWaiting()
 		var tempDistance = global_position.distance_to(targetPosition)
 		if tempDistance > tempCloseDistance:
 			is_running = (tempDistance > RUN_DISTANCE)
@@ -149,25 +157,10 @@ func _updateWalking(delta) -> void:
 				if path.size() > 1:
 					path.remove(0)
 		else:
-			#когда нпц пришел к точке
 			targetPosition = Vector2.ZERO
 			waitTime = WAIT_TIME
-			if targetPlace:
-				if targetPlace is HidingSpot:
-					if state == G.STATE.HIDING:
-						setHide(true)
-						targetPlace.interact(null, self)
-					if state == G.STATE.SEARCHING:
-						waitState = waitStates.searching
-						changeAnimation("use")
-						targetPlace.search(self)
-						waitTime = SEARCH_WAIT_TIME
-				
-				if targetPlace is Character && state == G.STATE.LOST:
-					var dist = global_position.distance_to(targetPlace.global_position) 
-					if dist < RUN_DISTANCE:
-						if randf() <= LOST_SAY_CHANCE:
-							showMessage("lost", "random", 2)
+			if targetPlace != null:
+				_interactWithTarget()
 				targetPlace = null
 
 
@@ -263,7 +256,7 @@ func afterInteract() -> void:
 
 
 func _ready():
-	startDialogue = dialogue_id
+	isStartGameNPC = dialogue_id != ""
 	startPhrase   = phraseCode
 	#чтоб не моргали одинаково
 	yield(get_tree().create_timer(randf() * 2), "timeout")

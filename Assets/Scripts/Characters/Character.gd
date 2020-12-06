@@ -10,14 +10,18 @@ onready var manager = get_node("/root/Main")
 export var female: bool
 
 #переменные состояния
+const SEARCH_WAIT_TIME = 0.9
+
 var state = G.STATE.IDLE
 
 enum waitStates {waiting, searching, none}
 var waitState = waitStates.none
+var waitTime = 0
 
 var is_running = false
 var is_hiding = false
 var hiding_in_prop = false
+var myProp = null
 
 #переменные для перемещения
 onready var audi = get_node("audi")
@@ -50,6 +54,19 @@ func showMessage(section: String, phrase: String, timer = 3) -> void:
 	messageCount = true
 
 
+func sayAfterWaiting() -> void:
+	if waitState == waitStates.waiting:
+		showMessage("searching", "start", 2)
+	waitState = waitStates.none
+
+
+func sayAfterSearching(found: bool, character = null) -> void:
+	if found:
+		showMessage("searching", "found", 2)
+		if character:
+			manager.findCharacter(character)
+
+
 func changeAnimation(newAnimation: String) -> void:
 	anim.play(newAnimation)
 
@@ -73,6 +90,10 @@ func setHide(hide_on: bool) -> void:
 
 func setState(newState) -> void:
 	state = newState
+	if state == G.STATE.SEARCHING:
+		changeAnimation("wait")
+		waitTime = G.HIDING_TIME
+		waitState = waitStates.waiting
 	if state == G.STATE.LOST:
 		changeCollision(2)
 	else:

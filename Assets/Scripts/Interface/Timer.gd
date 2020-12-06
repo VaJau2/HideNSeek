@@ -6,16 +6,22 @@ extends Label
 # Генерирует сигнал, когда посчитает время
 #-----
 
-var minutes = 0
-var seconds = 0
+var time: float
 
 signal timeout
 
 
-func StartTimer(_seconds, _minutes = 0) -> void:
-	minutes = _minutes
-	seconds = _seconds
+func startTimer(_seconds: int) -> void:
+	time = _seconds
 	_makeWork(true)
+
+
+func addTime(newSeconds: int) -> void:
+	time += newSeconds
+
+
+func finishTimer() -> void:
+	time = 0
 
 
 func _makeWork(work: bool) -> void:
@@ -23,12 +29,16 @@ func _makeWork(work: bool) -> void:
 	set_process(work)
 
 
-func _getSecondString() -> String:
-	var tempSeconds = round(seconds)
-	var strSeconds = str(tempSeconds)
-	if tempSeconds < 10:
+func _getMinuresSecondsString() -> String:
+	var seconds = int(time) % 60
+	var minutes = int(time / 60)
+	
+	#делаем "01" из "1"
+	var strSeconds = str(round(seconds))
+	if seconds < 10:
 		strSeconds = "0" + strSeconds
-	return strSeconds
+	
+	return str(minutes) + ":" + strSeconds
 
 
 func _ready():
@@ -37,14 +47,10 @@ func _ready():
 
 
 func _process(delta):
-	text = str(minutes) + ":" + _getSecondString()
+	text = _getMinuresSecondsString()
 	
-	if seconds > 0:
-		seconds -= delta
+	if time > 0:
+		time -= delta
 	else:
-		if minutes > 0:
-			minutes -= 1
-			seconds = 60
-		else:
-			_makeWork(false)
-			emit_signal("timeout")
+		_makeWork(false)
+		emit_signal("timeout")
