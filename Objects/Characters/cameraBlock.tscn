@@ -1,0 +1,64 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Scripts/Characters/Player/HidingCamera.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 3.2258, 72.3182 )
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 2.93416
+
+[node name="cameraBlock" type="StaticBody2D"]
+collision_layer = 2147484672
+collision_mask = 1024
+
+[node name="shape" type="CollisionShape2D" parent="."]
+position = Vector2( 100, 100 )
+rotation = 0.785398
+shape = SubResource( 1 )
+
+[node name="shape2" type="CollisionShape2D" parent="."]
+position = Vector2( -100, -100 )
+rotation = 0.785398
+shape = SubResource( 1 )
+
+[node name="shape3" type="CollisionShape2D" parent="."]
+position = Vector2( 100, -100 )
+rotation = -0.785398
+shape = SubResource( 1 )
+
+[node name="shape4" type="CollisionShape2D" parent="."]
+position = Vector2( -100, 100 )
+rotation = -0.785398
+shape = SubResource( 1 )
+
+[node name="shape5" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 150 )
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="shape6" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -150 )
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="shape7" type="CollisionShape2D" parent="."]
+position = Vector2( 150, 0 )
+shape = SubResource( 1 )
+
+[node name="shape8" type="CollisionShape2D" parent="."]
+position = Vector2( -150, 0 )
+shape = SubResource( 1 )
+
+[node name="cameraBody" type="KinematicBody2D" parent="."]
+collision_layer = 1024
+collision_mask = 1024
+
+[node name="shape" type="CollisionShape2D" parent="cameraBody"]
+shape = SubResource( 2 )
+
+[node name="camera" type="Camera2D" parent="cameraBody"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}

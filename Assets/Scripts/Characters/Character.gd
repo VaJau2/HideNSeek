@@ -34,7 +34,7 @@ var speed = 120
 var run_speed = 200
 var acceleration = 800
 
-onready var messageLabel = get_node("message")
+onready var messageLabel = get_node("labelNode/message")
 var messageTimer = 0
 var messageCount = false
 

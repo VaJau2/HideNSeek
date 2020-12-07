@@ -9,9 +9,8 @@ extends Character
 # если тот не хочет
 #-----
 
-const HIDE_IN_AIR_CAMERA_RADIUS = 300
-
-onready var hidingCamera = get_node("/root/Main/hidingCamera")
+onready var cameraBlock = get_node("/root/Main/cameraBlock")
+onready var hidingCamera = cameraBlock.get_node("cameraBody/camera")
 onready var mainCamera = get_node("Camera")
 onready var interactArea = get_node("interactArea")
 var mayMove = true
@@ -28,12 +27,14 @@ func setState(newState):
 func setHide(hide_on: bool) -> void:
 	.setHide(hide_on)
 	mayMove = !is_hiding
-	hidingCamera.set_process(is_hiding)
 	if is_hiding:
-		hidingCamera.global_position = mainCamera.global_position
-		hidingCamera.setCurrent(global_position, HIDE_IN_AIR_CAMERA_RADIUS)
+		cameraBlock.global_position = mainCamera.global_position
+		hidingCamera.setCurrent()
+		G.currentCamera = hidingCamera
 	else:
 		mainCamera.current = true
+		hidingCamera.set_process(false)
+		G.currentCamera = mainCamera
 
 
 func _checkHidingKey() -> void:
@@ -67,6 +68,7 @@ func updateKeys():
 
 func _ready():
 	G.player = self
+	G.currentCamera = mainCamera
 
 
 func _process(delta):
@@ -77,7 +79,7 @@ func _process(delta):
 		velocity = Vector2(0, 0)
 		waitTime -= delta
 		return
-	
+
 	sayAfterWaiting()
 	_checkHidingKey()
 	updateKeys()

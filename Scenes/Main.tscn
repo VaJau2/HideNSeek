@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=58 format=2]
 
 [ext_resource path="res://Objects/Tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Objects/Characters/NPC.tscn" type="PackedScene" id=2]
@@ -9,7 +9,7 @@
 [ext_resource path="res://Assets/Scripts/YSortUngrouping.gd" type="Script" id=7]
 [ext_resource path="res://Objects/Interface/DialogueMenu.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Assets/Sprites/Shadows/treeShadow.png" type="Texture" id=9]
-[ext_resource path="res://Assets/Scripts/HidingCamera.gd" type="Script" id=10]
+[ext_resource path="res://Objects/Characters/cameraBlock.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Assets/Scripts/Furniture/StepsMaterial.gd" type="Script" id=11]
 [ext_resource path="res://Objects/Characters/Player.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Assets/Sprites/Trees/tree1_open.png" type="Texture" id=13]
@@ -22,6 +22,7 @@
 [ext_resource path="res://Assets/Scripts/Interface/GamepadCheck.gd" type="Script" id=20]
 [ext_resource path="res://Assets/Scripts/GameManager.gd" type="Script" id=21]
 [ext_resource path="res://Objects/Characters/NPC-1.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Assets/Materials/snowfall.shader" type="Shader" id=23]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 37.5189, 10 )
@@ -124,7 +125,23 @@ vertices = PoolVector2Array( 214.246, 247.666, 983.15, 210.49, 1001.11, 209.929,
 polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 6, 7, 8 ), PoolIntArray( 9, 10, 11, 12, 13 ), PoolIntArray( 14, 15, 16, 17, 18 ), PoolIntArray( 2, 19, 20, 21, 3 ), PoolIntArray( 22, 23, 24, 25, 26, 27, 28, 29 ), PoolIntArray( 4, 3, 30 ), PoolIntArray( 10, 9, 31, 32 ), PoolIntArray( 33, 31, 9, 34 ), PoolIntArray( 21, 20, 35 ), PoolIntArray( 36, 37, 38, 39, 40 ), PoolIntArray( 41, 42, 43, 44, 45, 46, 25, 47 ), PoolIntArray( 25, 46, 48 ), PoolIntArray( 21, 35, 49, 50 ), PoolIntArray( 41, 51, 52, 5, 8, 42 ), PoolIntArray( 53, 54, 16 ), PoolIntArray( 55, 56, 19, 2 ), PoolIntArray( 25, 48, 57, 58 ), PoolIntArray( 59, 60, 61, 62, 63, 64, 65, 66, 67 ), PoolIntArray( 68, 69, 70, 56, 55, 71, 11 ), PoolIntArray( 72, 53, 16, 73 ), PoolIntArray( 54, 74, 75, 17, 16 ), PoolIntArray( 18, 17, 76 ), PoolIntArray( 62, 37, 36, 63 ), PoolIntArray( 11, 71, 77, 78 ), PoolIntArray( 79, 18, 76 ), PoolIntArray( 28, 79, 76, 80, 81 ), PoolIntArray( 74, 82, 60, 59, 83 ), PoolIntArray( 84, 75, 74, 83, 85 ), PoolIntArray( 37, 69, 68, 38 ), PoolIntArray( 86, 27, 26, 87, 88 ), PoolIntArray( 89, 0, 4 ), PoolIntArray( 89, 4, 90, 91 ), PoolIntArray( 58, 57, 92, 73, 93 ), PoolIntArray( 94, 95, 96, 97, 98 ), PoolIntArray( 99, 100, 101, 102, 103, 68, 32 ), PoolIntArray( 104, 52, 51, 105 ), PoolIntArray( 106, 107, 108, 109, 28 ), PoolIntArray( 110, 71, 1, 0, 111, 112 ), PoolIntArray( 99, 32, 31, 113, 114 ), PoolIntArray( 115, 114, 113, 116, 117 ), PoolIntArray( 118, 119, 120, 121, 122, 123 ), PoolIntArray( 124, 47, 125, 126 ), PoolIntArray( 64, 40, 127, 128, 129 ), PoolIntArray( 23, 22, 130, 131, 126 ), PoolIntArray( 132, 81, 80, 75, 133 ), PoolIntArray( 84, 85, 67, 66, 134 ), PoolIntArray( 131, 135, 136, 105, 51, 124, 126 ), PoolIntArray( 137, 138, 139, 140 ), PoolIntArray( 101, 127, 40, 39, 102 ), PoolIntArray( 58, 93, 15, 14, 88, 87 ), PoolIntArray( 141, 33, 34, 142 ), PoolIntArray( 4, 30, 143, 144, 145, 146, 147 ), PoolIntArray( 103, 38, 68 ), PoolIntArray( 116, 113, 141, 142 ), PoolIntArray( 92, 72, 73 ), PoolIntArray( 148, 86, 88, 79 ), PoolIntArray( 43, 7, 6, 149, 44 ), PoolIntArray( 125, 47, 25, 24 ), PoolIntArray( 28, 27, 150 ), PoolIntArray( 151, 152, 153, 154, 155 ), PoolIntArray( 11, 78, 12 ), PoolIntArray( 9, 13, 156, 157 ), PoolIntArray( 146, 158, 140, 139, 147 ), PoolIntArray( 159, 160, 161, 122 ), PoolIntArray( 162, 163, 157, 156 ), PoolIntArray( 121, 164, 159, 122 ), PoolIntArray( 9, 157, 112, 165, 166 ), PoolIntArray( 28, 150, 148, 79 ), PoolIntArray( 28, 81, 106 ), PoolIntArray( 167, 28, 109, 122 ), PoolIntArray( 154, 168, 142, 34, 155 ), PoolIntArray( 161, 169, 170, 122 ), PoolIntArray( 101, 100, 115, 171 ), PoolIntArray( 84, 171, 115, 117, 168, 172 ), PoolIntArray( 145, 173, 174, 146 ), PoolIntArray( 110, 77, 71 ), PoolIntArray( 175, 167, 122, 170 ), PoolIntArray( 129, 65, 64 ), PoolIntArray( 134, 129, 128 ), PoolIntArray( 84, 134, 128, 171 ), PoolIntArray( 75, 84, 133 ), PoolIntArray( 132, 133, 176, 107 ), PoolIntArray( 107, 176, 172, 108 ), PoolIntArray( 108, 172, 168, 177 ), PoolIntArray( 49, 178, 50 ), PoolIntArray( 21, 50, 179 ), PoolIntArray( 21, 179, 180, 181 ), PoolIntArray( 21, 181, 182, 144, 143 ), PoolIntArray( 147, 139, 183, 184 ), PoolIntArray( 90, 184, 183, 185, 91 ), PoolIntArray( 111, 91, 185, 112 ), PoolIntArray( 112, 185, 165 ), PoolIntArray( 9, 166, 151, 186 ), PoolIntArray( 155, 186, 151 ), PoolIntArray( 168, 154, 187 ), PoolIntArray( 168, 187, 188 ), PoolIntArray( 189, 29, 28 ), PoolIntArray( 190, 189, 28, 191 ), PoolIntArray( 97, 191, 28, 98 ), PoolIntArray( 94, 98, 175, 192 ), PoolIntArray( 170, 192, 175 ), PoolIntArray( 193, 118, 123, 194 ), PoolIntArray( 195, 194, 123, 108, 196 ), PoolIntArray( 197, 196, 108, 177 ), PoolIntArray( 168, 188, 177 ) ]
 outlines = [ PoolVector2Array( 205.509, 6.7955, 44.2883, 15.9879, 34.3888, 66.8996, 68.3299, 88.1128, 221.633, 99.9142, 267.418, 136.185, 253.147, 194.456, 66.0588, 199.516, 6.35518, 212.97, -68.1296, 224.077, -63.3674, 270.111, 1.75838, 276.627, 11.2404, 310.59, 140.614, 312.971, 151.725, 384.404, 191.41, 427.264, 314.434, 418.533, 347.764, 377.277, 425.552, 366.149, 459.897, 355.228, 568.418, 351.069, 592.932, 333.423, 636.636, 333.423, 657.313, 351.069, 865.645, 351.149, 898.979, 334.44, 1021.82, 313.651, 1122.64, 305.149, 1125.64, 3.14896, 1111.23, -38.009, 1091.7, -55.0179, 1072.18, -95.3354, 1056.5, -159.107, 1048.87, -209.988, 1017.99, -269.01, 1018.99, -302.01, 987.986, -373.01, 953.986, -434.01, 902.986, -470.01, 862.986, -514.01, 859.085, -539.052, 880.503, -627.877, 913.261, -656.225, 963.028, -678.903, 1015.32, -694.022, 1057.52, -714.181, 1084.61, -730.56, 1094.06, -792.926, 1075.79, -904.429, 1017.5, -938.794, 1012.5, -956.794, 936, -955.294, 935, -973.294, 677.749, -974.552, 677.082, -957.199, 560.951, -956.531, 560.951, -937.843, 107.773, -935.841, 87.4724, -942.864, 67.06, -956.531, 32.3181, -965.491, 8.99442, -973.216, 8.99442, -990.569, -73.7479, -983.876, -92.4534, -956.269, -127.827, -924.9, -128.494, -862.162, -147.849, -853.486, -151.186, -822.117, -169.874, -814.776, -166.537, -766.054, -185.225, -758.712, -185.892, -722.672, -205.915, -722.672, -205.889, -400.372, -189.204, -391.028, -169.848, -354.987, -129.803, -334.297, -95.0974, -315.609, -57.7218, -296.254, 5.70724, -259.488, 112.171, -215.943, 179.346, -143.818, 221.772, -49.0659 ), PoolVector2Array( 640.312, -239.103, 640.312, -134.805, 808.957, -135.512, 808.603, -240.517 ), PoolVector2Array( 94.7565, 248.041, 95.8802, 266.769, 119.104, 265.646, 116.482, 246.542 ), PoolVector2Array( 194.768, 230.435, 194.019, 248.415, 214.246, 247.666, 210.875, 229.312 ), PoolVector2Array( 365.094, 269.474, 366.681, 287.332, 388.508, 285.745, 387.714, 265.506 ), PoolVector2Array( 402.145, -0.351044, 403.145, 16.149, 423.145, 15.149, 421.645, -3.85104 ), PoolVector2Array( -121.347, -410.334, -120.95, -378.189, -90.3923, -377.395, -89.5986, -410.731 ), PoolVector2Array( 70.7289, -426.605, 67.1573, -396.444, 101.286, -399.222, 99.3021, -427.795 ), PoolVector2Array( 341.986, -410.01, 347.986, -373.51, 380.986, -400.01, 374.486, -413.51 ), PoolVector2Array( 360.986, -439.01, 374.986, -413.51, 414.486, -417.01, 403.486, -453.51 ), PoolVector2Array( 123.552, -373.782, 124.219, -355.761, 178.28, -356.429, 174.276, -373.782 ), PoolVector2Array( 363.127, -70.0135, 364.387, -54.8944, 416.673, -54.2645, 416.043, -70.0135 ), PoolVector2Array( 976.876, -135.211, 977.625, -119.478, 1002.35, -117.231, 996.354, -137.458 ), PoolVector2Array( 980.905, 188.602, 983.15, 210.49, 1001.11, 209.929, 1002.23, 191.408 ), PoolVector2Array( 719.986, -80.5102, 718.486, -58.5102, 756.486, -56.0102, 757.986, -80.5102 ), PoolVector2Array( 842.076, -251.279, 839.556, -231.75, 872.944, -231.75, 871.054, -249.389 ), PoolVector2Array( 886.443, -313.613, 885.971, -297.568, 941.188, -298.983, 936.941, -313.142 ), PoolVector2Array( 590.264, -454.951, 589.075, -419.869, 619.4, -417.491, 618.805, -446.032 ), PoolVector2Array( 476.72, -711.761, 471.723, -686.351, 504.518, -686.771, 505.779, -717.464 ), PoolVector2Array( 361.566, -715.362, 362.407, -687.192, 388.054, -690.976, 390.577, -714.941 ), PoolVector2Array( -127.639, -924.141, -92.9906, -890.553, -61.8779, -903.281, -91.8551, -955.851 ), PoolVector2Array( 750.645, -919.851, 748.645, -903.351, 768.145, -904.851, 765.645, -924.851 ), PoolVector2Array( 842.748, -904.592, 842.748, -879.193, 866.956, -879.987, 860.209, -907.37 ), PoolVector2Array( 1052.99, -824.655, 1056.46, -801.976, 1092.84, -799.614, 1085.75, -840.404 ), PoolVector2Array( 543.029, -80.0241, 542.695, -49.3228, 596.422, -48.6553, 597.423, -79.0229 ), PoolVector2Array( 603.274, -4.81166, 603.804, 34.9182, 649.361, 33.8587, 649.891, -4.28193 ), PoolVector2Array( 180.986, 38.4898, 182.486, 61.4898, 216.946, 60.3432, 216.525, 38.4799 ), PoolVector2Array( 472.145, 87.3994, 471.838, 112.805, 500.122, 133.665, 504.718, 150.282, 469.716, 176.092, 469.363, 208.972, 506.839, 206.497, 546.791, 164.778, 546.437, 118.109, 505.425, 88.4103 ) ]
 
-[sub_resource type="GDScript" id=32]
+[sub_resource type="ShaderMaterial" id=32]
+shader = ExtResource( 23 )
+shader_param/iPos = null
+
+[sub_resource type="GDScript" id=33]
+script/source = "extends ColorRect
+
+
+func _process(_delta):
+	var camera = G.currentCamera
+	if camera:
+		var posX = camera.global_position.x
+		var posY = -camera.global_position.y
+		material.set_shader_param(\"iPos\", Vector2(posX, posY))
+"
+
+[sub_resource type="GDScript" id=34]
 script/source = "extends ColorRect
 
 #плавное затемнение экрана
@@ -550,13 +567,25 @@ visible = false
 position = Vector2( 1.01416, 0.0101624 )
 navpoly = SubResource( 31 )
 
+[node name="cameraBlock" parent="." instance=ExtResource( 10 )]
+visible = false
+
 [node name="canvas" type="CanvasLayer" parent="."]
+
+[node name="snowShader" type="ColorRect" parent="canvas"]
+material = SubResource( 32 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 33 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="background" type="ColorRect" parent="canvas"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0 )
-script = SubResource( 32 )
+script = SubResource( 34 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -585,12 +614,6 @@ phrases_female_file_path = "res://Assets/json/phrases_female.json"
 script = ExtResource( 20 )
 keyboard_json = "res://Assets/json/keys_keyboard.json"
 gamepad_json = "res://Assets/json/keys_gamepad.json"
-
-[node name="hidingCamera" type="Camera2D" parent="."]
-script = ExtResource( 10 )
-__meta__ = {
-"_edit_lock_": true
-}
 [connection signal="body_entered" from="tiles/materials/dirt" to="tiles/materials/dirt" method="_on_body_entered"]
 [connection signal="body_exited" from="tiles/materials/dirt" to="tiles/materials/dirt" method="_on_body_exited"]
 [connection signal="body_entered" from="tiles/materials/wood" to="tiles/materials/wood" method="_on_body_entered"]

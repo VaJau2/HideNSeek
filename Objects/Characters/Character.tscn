@@ -196,7 +196,10 @@ anims/walk = SubResource( 8 )
 
 [node name="hints" parent="." instance=ExtResource( 3 )]
 
-[node name="message" type="Label" parent="."]
+[node name="labelNode" type="Node2D" parent="."]
+z_index = 5
+
+[node name="message" type="Label" parent="labelNode"]
 margin_left = -111.0
 margin_top = -65.0
 margin_right = 114.0

@@ -13,6 +13,7 @@ var player: Character
 var dialogueMenu: Control
 var timer: Label
 var randomSpots: Array
+var currentCamera: Camera2D
 
 
 func getPhrase(female: bool, section: String, phrase: String):

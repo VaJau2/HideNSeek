@@ -12,7 +12,7 @@ var my_character = null
 
 export var open_sprite: Resource
 export var hide_animation = "hide"
-export var free_camera_radius = 200
+export var free_camera_scale = 1
 
 onready var sprite = get_node("Sprite")
 onready var hidePlace = get_node("hidePlace")
@@ -68,7 +68,8 @@ func interact(interactArea = null, character = G.player) -> void:
 			character.setHide(false)
 			return
 		if character == G.player:
-			character.hidingCamera.setCurrent(global_position, free_camera_radius)
+			character.cameraBlock.global_position = global_position
+			character.hidingCamera.setCurrent(free_camera_scale)
 		
 		my_character = character
 		character.myProp = self
