@@ -20,7 +20,7 @@ hide_animation = "sit"
 [node name="Sprite_back" type="Sprite" parent="."]
 show_behind_parent = true
 position = Vector2( 0, -18 )
-scale = Vector2( 1.2, 1.2 )
+scale = Vector2( 1.3, 1.2 )
 texture = ExtResource( 3 )
 
 [node name="hidePlace" type="Node2D" parent="."]
@@ -29,7 +29,7 @@ position = Vector2( 0, -7 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -18 )
-scale = Vector2( 1.2, 1.2 )
+scale = Vector2( 1.3, 1.2 )
 texture = ExtResource( 1 )
 
 [node name="shape" type="CollisionShape2D" parent="."]

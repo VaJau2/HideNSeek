@@ -15,8 +15,8 @@ var tempInteractArea = null
 
 #переменные для навигации по карте
 const RUN_DISTANCE = 150
-const CLOSE_DISTANCE = 35
-const PATH_DISTANCE = 20
+const CLOSE_DISTANCE = 45
+const PATH_DISTANCE = 25
 const WAIT_TIME = 0.5
 
 var targetPlace = null
@@ -30,11 +30,10 @@ var path: PoolVector2Array
 const SEARCH_CHANCE = 0.85
 const SAY_CHANCE = 0.5
 const LOST_SAY_CHANCE = 0.05
-const SEARCHED_PLACES_COUNT = 7
+const SEARCHED_PLACES_COUNT = 14
 const NEED_CHECK_VALUE = 0.2
 const CHECK_SEE_TIMER = 0.6
-onready var seekArea = get_node("seekArea")
-onready var raycast = get_node("raycast")
+
 var searchedPlaceNames = []
 var charactersISee = {} # key = name, values = (character, seeValue)
 var lastSeePoint: Vector2
@@ -61,7 +60,7 @@ func setState(newState) -> void:
 			showMessage("hiding", "fail", 2)
 		
 		if newState == G.STATE.IDLE:
-			phraseCode  = startPhrase
+			phraseCode = startPhrase
 		return
 	
 	if newState == G.STATE.SEARCHING:
@@ -103,12 +102,6 @@ func _getNextPoint(delta) -> void:
 		var randNum = randi() % G.randomSpots.size()
 		targetPlace = G.randomSpots[randNum]
 		goTo(targetPlace.global_position)
-
-
-func setFlipX(flipOn: bool) -> void:
-	if sprite.flip_h != flipOn:
-		seekArea.position.x *= -1
-	sprite.flip_h = flipOn
 
 
 func sayAfterSearching(found: bool, character = null) -> void:
@@ -241,12 +234,15 @@ func _on_seekArea_body_exited(body):
 
 
 func interact(interactArea) -> void:
+	if state == G.STATE.HIDING:
+		setState(G.STATE.LOST)
+		return
 	if dialogue_id.length() > 0 && !G.dialogueMenu.isOn():
 		setFlipX(G.player.global_position.x < global_position.x)
 		tempInteractArea = interactArea
 		tempInteractArea.hideLabels = true
 		G.dialogueMenu.StartDialogue(self, dialogue_id)
-	elif phraseSection.length() > 0:
+	elif phraseCode.length() > 0:
 		showMessage(phraseSection, phraseCode)
 
 

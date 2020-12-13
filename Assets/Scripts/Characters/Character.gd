@@ -7,6 +7,7 @@ extends KinematicBody2D
 class_name Character
 
 onready var manager = get_node("/root/Main")
+
 export var female: bool
 
 #переменные состояния
@@ -34,6 +35,7 @@ var speed = 120
 var run_speed = 200
 var acceleration = 800
 
+onready var seekArea = get_node("seekArea")
 onready var messageLabel = get_node("labelNode/message")
 var messageTimer = 0
 var messageCount = false
@@ -52,6 +54,10 @@ func showMessage(section: String, phrase: String, timer = 3) -> void:
 	messageLabel.text = text
 	messageTimer = timer
 	messageCount = true
+
+
+func isWaiting() -> bool:
+	return waitState != waitStates.none
 
 
 func sayAfterWaiting() -> void:
@@ -126,6 +132,12 @@ func _checkIceWalking() -> void:
 		acceleration = MATERIAL_ACCELS.snow
 	else:
 		acceleration = MATERIAL_ACCELS.ice
+
+
+func setFlipX(flipOn: bool) -> void:
+	if sprite.flip_h != flipOn:
+		seekArea.position.x *= -1
+	sprite.flip_h = flipOn
 
 
 func _ready():

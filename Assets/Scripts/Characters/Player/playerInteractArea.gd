@@ -21,7 +21,8 @@ var rightLabel = null
 var useButtons = {
 	"dialogue": "ui_use",
 	"hide": "ui_hide",
-	"search": "ui_use"
+	"search": "ui_use",
+	"find": "ui_use"
 }
 
 var hideLabels = false
@@ -52,7 +53,7 @@ func _hideLabels() -> void:
 			rightLabel.visible = false
 
 
-func _respawnLabels(_objI: int) -> void:
+func _setTempInteractObj(_objI: int) -> void:
 	_hideLabels()
 	tempInteractObj = interactObjectsArray[_objI]
 	tempHint = hintsArray[_objI]
@@ -64,19 +65,31 @@ func _objIsLefter() -> bool:
 
 
 func _getClosestObject() -> void:
+	#если прячемся, то ничего не проверяем,
+	#тк текущим объектом должен быть только тот,
+	#в котором гг прячется
+	if G.player.hiding_in_prop:
+		return
+	
 	#проверяем и берем текущий объект по расстоянию
 	if tempInteractObj != interactObjectsArray[objI]:
 		var tempDist = tempInteractObj.global_position.distance_to(G.player.global_position)
 		var newDist = interactObjectsArray[objI].global_position.distance_to(G.player.global_position)
 		if newDist < tempDist:
-			_respawnLabels(objI)
+			_setTempInteractObj(objI)
 	
 	#проверяем hidingSpot на случай, если его кто-то займет раньше
 	if G.player.state == G.STATE.HIDING \
 	&& tempInteractObj is HidingSpot \
 	&& tempInteractObj.my_character != null \
 	&& tempInteractObj.my_character != self:
-		_removeInteractObject(tempInteractObj)
+		removeInteractObject(tempInteractObj)
+	
+	#проверяем Character на случай, если тот спрятался
+	if G.player.state == G.STATE.SEARCHING \
+	&& tempInteractObj is Character \
+	&& tempInteractObj.hiding_in_prop:
+		removeInteractObject(tempInteractObj)
 	
 	if objI < interactObjectsArray.size() - 1:
 		objI += 1
@@ -86,9 +99,9 @@ func _getClosestObject() -> void:
 
 func _checkDialogue(body) -> bool:
 	if body is Character:
-		if body.dialogue_id && body.dialogue_id.length() > 0:
+		if body.dialogue_id.length() > 0:
 			return true
-		if body.phraseCode && body.phraseCode.length() > 0:
+		if body.phraseCode.length() > 0:
 			return true
 	return false
 
@@ -103,7 +116,7 @@ func _checkHideSpot(body) -> String:
 	return "";
 
 
-func _addInteractObject(newObject, hint) -> void:
+func addInteractObject(newObject, hint) -> void:
 	if tempInteractObj == null:
 		tempInteractObj = newObject
 		tempHint = hint
@@ -112,16 +125,23 @@ func _addInteractObject(newObject, hint) -> void:
 	_spawnLabels()
 
 
-func _removeInteractObject(object) -> void:
+func removeInteractObject(object) -> void:
 	objI = 0
 	var deleteObjI = interactObjectsArray.find(object)
 	interactObjectsArray.remove(deleteObjI)
 	hintsArray.remove(deleteObjI)
 	if (interactObjectsArray.size() == 1):
-		_respawnLabels(0)
+		_setTempInteractObj(0)
 	if (interactObjectsArray.size() == 0):
 		_hideLabels()
 		tempInteractObj = null
+
+
+func clearInteractObjects() -> void:
+	objI = 0
+	interactObjectsArray.clear()
+	_hideLabels()
+	tempInteractObj = null
 
 
 func _on_interactArea_body_entered(body):
@@ -129,27 +149,29 @@ func _on_interactArea_body_entered(body):
 		return
 	
 	if _checkDialogue(body):
-		_addInteractObject(body, "dialogue")
+		addInteractObject(body, "dialogue")
 	
 	var hideButton = _checkHideSpot(body)
 	if hideButton != "":
-		_addInteractObject(body, hideButton)
+		addInteractObject(body, hideButton)
 
 
 func _on_interactArea_body_exited(body):
 	if body in interactObjectsArray:
-		_removeInteractObject(body)
+		removeInteractObject(body)
 
 
 func _process(_delta):
 	if interactObjectsArray.size() > 0:
 		_getClosestObject()
 	
-	if tempInteractObj:
+	if tempInteractObj && !G.player.isWaiting():
 		_showLabels()
 		if (Input.is_action_just_pressed(useButtons[tempHint])):
 			tempInteractObj.interact(self)
 			if tempHint == "search":
 				G.player.waitTime = G.player.SEARCH_WAIT_TIME
+			if tempHint == "find":
+				G.player.sayAfterSearching(true, tempInteractObj)
 	else:
 		_hideLabels()

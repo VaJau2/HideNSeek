@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Assets/Scripts/Characters/Character.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Sprites/Characters/testPonySmall.png" type="Texture" id=2]
@@ -148,6 +148,9 @@ tracks/0/keys = {
 "values": [ 8, 9, 10, 11, 12, 13, 14, 15 ]
 }
 
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 185.375, 87.8089 )
+
 [node name="Character" type="KinematicBody2D"]
 scale = Vector2( 0.9, 0.9 )
 script = ExtResource( 1 )
@@ -209,3 +212,14 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="seekArea" type="Area2D" parent="."]
+visible = false
+position = Vector2( 80, 0 )
+input_pickable = false
+monitorable = false
+
+[node name="shape" type="CollisionShape2D" parent="seekArea"]
+shape = SubResource( 9 )
+[connection signal="body_entered" from="seekArea" to="." method="_on_seekArea_body_entered"]
+[connection signal="body_exited" from="seekArea" to="." method="_on_seekArea_body_exited"]

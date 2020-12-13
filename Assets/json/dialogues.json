@@ -7,12 +7,12 @@
 		"4": {"text": "Хочешь с нами?", "needAnswer": "true"}
 	},
 	"Choose": {
-		"0": {"text": "Хочешь быть ведущим?", "needAnswer": "true"}
+		"0": {"text": "Хочешь быть ведущей?", "needAnswer": "true"}
 	},
 	"AgainHiding": {
-		"0": {"text": "Ну что, готов к следующему раунду?", "needAnswer": "true"},
+		"0": {"text": "Ну что, готова к следующему раунду?", "needAnswer": "true"},
 	},
 	"AgainSearching": {
-		"0": {"text": "Хехе, не повезло тебе. Готов быть ведущим?", "needAnswer": "true"},
+		"0": {"text": "Хехе, не повезло тебе. Готова быть ведущей?", "needAnswer": "true"},
 	}
 }

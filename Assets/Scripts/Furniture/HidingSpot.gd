@@ -37,9 +37,9 @@ func search(searchingChar) -> void:
 	var tempCharacter = my_character
 	
 	if is_busy:
-		var interactArea = null
-		if my_character == G.player:
-			interactArea = G.player.interactArea
+#		var interactArea = null
+#		if my_character == G.player:
+#			interactArea = G.player.interactArea
 		my_character.setState(G.STATE.LOST)
 	
 	searchingChar.sayAfterSearching(is_busy, tempCharacter)
@@ -82,11 +82,12 @@ func interact(interactArea = null, character = G.player) -> void:
 		yield(get_tree().create_timer(OPEN_TIMER), "timeout")
 		sprite.texture = close_sprite
 	else:
-		character.global_position = oldPlace
+		if oldPlace != Vector2.ZERO:
+			character.global_position = oldPlace
 		character.changeCollision(1)
 		character.changeParent(ySort)
 		character.myProp = null
 		my_character = null
 	
 	if interactArea != null:
-			interactArea.tempInteractObj = self if character.is_hiding else null
+		interactArea.tempInteractObj = self if character.is_hiding else null
