@@ -15,7 +15,7 @@ const SEARCH_WAIT_TIME = 0.9
 
 var state = G.STATE.IDLE
 
-enum waitStates {waiting, searching, none}
+enum waitStates {waiting, searching, hiding, none}
 var waitState = waitStates.none
 var waitTime = 0
 
@@ -58,6 +58,11 @@ func showMessage(section: String, phrase: String, timer = 3) -> void:
 
 func isWaiting() -> bool:
 	return waitState != waitStates.none
+
+
+func stopWaiting() -> void:
+	waitState = waitStates.none
+	waitTime = 0
 
 
 func sayAfterWaiting() -> void:

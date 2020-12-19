@@ -1,0 +1,57 @@
+[gd_scene load_steps=25 format=2]
+
+[ext_resource path="res://Objects/Characters/Character.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Scripts/Characters/NPC.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Audio/Steps/wood/walk2.wav" type="AudioStream" id=3]
+[ext_resource path="res://Assets/Audio/Steps/wood/walk1.wav" type="AudioStream" id=4]
+[ext_resource path="res://Assets/Audio/Steps/dirt/walk3.wav" type="AudioStream" id=5]
+[ext_resource path="res://Assets/Audio/Steps/dirt/run3.wav" type="AudioStream" id=6]
+[ext_resource path="res://Assets/Audio/Steps/ice/walk3.wav" type="AudioStream" id=7]
+[ext_resource path="res://Assets/Audio/Steps/dirt/run1.wav" type="AudioStream" id=8]
+[ext_resource path="res://Assets/Audio/Steps/snow/walk2.wav" type="AudioStream" id=9]
+[ext_resource path="res://Assets/Audio/Steps/snow/walk3.wav" type="AudioStream" id=10]
+[ext_resource path="res://Assets/Audio/Steps/dirt/walk2.wav" type="AudioStream" id=11]
+[ext_resource path="res://Assets/Audio/Steps/snow/run3.wav" type="AudioStream" id=12]
+[ext_resource path="res://Assets/Audio/Steps/dirt/walk1.wav" type="AudioStream" id=13]
+[ext_resource path="res://Assets/Audio/Steps/ice/walk1.wav" type="AudioStream" id=14]
+[ext_resource path="res://Assets/Audio/Steps/ice/walk2.wav" type="AudioStream" id=15]
+[ext_resource path="res://Assets/Audio/Steps/snow/run1.wav" type="AudioStream" id=16]
+[ext_resource path="res://Assets/Audio/Steps/snow/walk1.wav" type="AudioStream" id=17]
+[ext_resource path="res://Assets/Audio/Steps/snow/run2.wav" type="AudioStream" id=18]
+[ext_resource path="res://Assets/Audio/Steps/wood/walk3.wav" type="AudioStream" id=19]
+[ext_resource path="res://Assets/Audio/Steps/dirt/run2.wav" type="AudioStream" id=20]
+[ext_resource path="res://Assets/Audio/Steps/ice/run2.wav" type="AudioStream" id=21]
+[ext_resource path="res://Assets/Audio/Steps/ice/run1.wav" type="AudioStream" id=22]
+[ext_resource path="res://Assets/Audio/Steps/ice/run3.wav" type="AudioStream" id=23]
+[ext_resource path="res://Assets/Sprites/Characters/paperbag.png" type="Texture" id=24]
+
+[node name="paperbag" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+female = true
+phraseSection = "idle"
+phraseCode = "wait"
+
+[node name="Sprite" parent="." index="2"]
+texture = ExtResource( 24 )
+flip_h = true
+frame = 1
+
+[node name="audi" parent="." index="3"]
+stepsArray = {
+"dirt": [ ExtResource( 13 ), ExtResource( 11 ), ExtResource( 5 ) ],
+"ice": [ ExtResource( 14 ), ExtResource( 15 ), ExtResource( 7 ) ],
+"snow": [ ExtResource( 17 ), ExtResource( 9 ), ExtResource( 10 ) ],
+"wood": [ ExtResource( 4 ), ExtResource( 3 ), ExtResource( 19 ) ]
+}
+stepsRunArray = {
+"dirt": [ ExtResource( 8 ), ExtResource( 20 ), ExtResource( 6 ) ],
+"ice": [ ExtResource( 22 ), ExtResource( 21 ), ExtResource( 23 ) ],
+"snow": [ ExtResource( 16 ), ExtResource( 18 ), ExtResource( 12 ) ],
+"wood": [ ExtResource( 4 ), ExtResource( 3 ), ExtResource( 19 ) ]
+}
+
+[node name="raycast" type="RayCast2D" parent="." index="7"]
+cast_to = Vector2( 0, 10 )
+
+[node name="seekArea" parent="." index="8"]
+position = Vector2( -80, 0 )

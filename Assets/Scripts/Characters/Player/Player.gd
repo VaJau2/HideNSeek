@@ -95,7 +95,8 @@ func _process(delta):
 func _checkHidingNPC(body) -> bool:
 	return state == G.STATE.SEARCHING \
 	&& body is Character \
-	&& !body.hiding_in_prop
+	&& !body.hiding_in_prop \
+	&& body.state != G.STATE.LOST
 
 
 func _on_seekArea_body_entered(body):

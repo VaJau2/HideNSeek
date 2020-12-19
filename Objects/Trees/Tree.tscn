@@ -6,7 +6,7 @@
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.51916
-height = 38.0793
+height = 26.8507
 
 [node name="Tree" type="KinematicBody2D"]
 collision_layer = 3

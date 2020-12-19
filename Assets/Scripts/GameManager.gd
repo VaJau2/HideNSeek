@@ -37,6 +37,10 @@ func findCharacter(character) -> void:
 	
 	hidingCharacters.erase(character)
 	character.setState(G.STATE.LOST)
+	print("found " + character.name)
+	print("hidingCharacters left: ")
+	for _character in hidingCharacters:
+		print("- " + _character.name)
 	if hidingCharacters.size() == 0:
 		G.timer.finishTimer()
 	else:
@@ -85,6 +89,7 @@ func startGame(newSearchingChar: Character = null) -> void:
 		searchingCharI = allCharacters.find(newSearchingChar)
 	firstFoundCharacter = null
 	
+	hidingCharacters.clear()
 	for i in range(allCharacters.size()):
 		if i != searchingCharI:
 			allCharacters[i].setState(G.STATE.HIDING)
@@ -115,8 +120,7 @@ func _finishGame():
 	
 	if hidingCharacters.size() > 0:
 		gameLabel.visible = true
-		gameLabel.text = "Ведущий не успел всех найти"
-		firstFoundCharacter = searchingCharacter
+		gameLabel.text = "Время вышло! Игроков не найдено: " + str(getHidingCount())
 	else:
 		gameLabel.visible = true
 		gameLabel.text = "Все игроки были найдены!"

@@ -34,15 +34,8 @@ func search(searchingChar) -> void:
 	may_interact = false
 	yield(get_tree().create_timer(OPEN_TIMER), "timeout")
 	may_interact = true
-	var tempCharacter = my_character
 	
-	if is_busy:
-#		var interactArea = null
-#		if my_character == G.player:
-#			interactArea = G.player.interactArea
-		my_character.setState(G.STATE.LOST)
-	
-	searchingChar.sayAfterSearching(is_busy, tempCharacter)
+	searchingChar.sayAfterSearching(is_busy, my_character)
 	
 	yield(get_tree().create_timer(OPEN_TIMER), "timeout")
 	sprite.texture = close_sprite
@@ -84,7 +77,8 @@ func interact(interactArea = null, character = G.player) -> void:
 	else:
 		if oldPlace != Vector2.ZERO:
 			character.global_position = oldPlace
-		character.changeCollision(1)
+		if character.state != G.STATE.LOST:
+			character.changeCollision(1)
 		character.changeParent(ySort)
 		character.myProp = null
 		my_character = null

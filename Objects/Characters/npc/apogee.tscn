@@ -1,0 +1,53 @@
+[gd_scene load_steps=25 format=2]
+
+[ext_resource path="res://Assets/Scripts/Characters/NPC.gd" type="Script" id=1]
+[ext_resource path="res://Objects/Characters/Character.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Audio/Steps/snow/run2.wav" type="AudioStream" id=3]
+[ext_resource path="res://Assets/Audio/Steps/ice/run1.wav" type="AudioStream" id=4]
+[ext_resource path="res://Assets/Audio/Steps/dirt/run1.wav" type="AudioStream" id=5]
+[ext_resource path="res://Assets/Audio/Steps/snow/walk3.wav" type="AudioStream" id=6]
+[ext_resource path="res://Assets/Audio/Steps/wood/walk2.wav" type="AudioStream" id=7]
+[ext_resource path="res://Assets/Audio/Steps/snow/walk2.wav" type="AudioStream" id=8]
+[ext_resource path="res://Assets/Audio/Steps/wood/walk1.wav" type="AudioStream" id=9]
+[ext_resource path="res://Assets/Audio/Steps/ice/walk2.wav" type="AudioStream" id=10]
+[ext_resource path="res://Assets/Audio/Steps/dirt/run2.wav" type="AudioStream" id=11]
+[ext_resource path="res://Assets/Audio/Steps/ice/walk1.wav" type="AudioStream" id=12]
+[ext_resource path="res://Assets/Audio/Steps/wood/walk3.wav" type="AudioStream" id=13]
+[ext_resource path="res://Assets/Audio/Steps/ice/run2.wav" type="AudioStream" id=14]
+[ext_resource path="res://Assets/Audio/Steps/ice/run3.wav" type="AudioStream" id=15]
+[ext_resource path="res://Assets/Audio/Steps/ice/walk3.wav" type="AudioStream" id=16]
+[ext_resource path="res://Assets/Audio/Steps/dirt/walk1.wav" type="AudioStream" id=17]
+[ext_resource path="res://Assets/Audio/Steps/dirt/walk3.wav" type="AudioStream" id=18]
+[ext_resource path="res://Assets/Audio/Steps/snow/walk1.wav" type="AudioStream" id=19]
+[ext_resource path="res://Assets/Audio/Steps/dirt/walk2.wav" type="AudioStream" id=20]
+[ext_resource path="res://Assets/Audio/Steps/snow/run1.wav" type="AudioStream" id=21]
+[ext_resource path="res://Assets/Audio/Steps/snow/run3.wav" type="AudioStream" id=22]
+[ext_resource path="res://Assets/Audio/Steps/dirt/run3.wav" type="AudioStream" id=23]
+[ext_resource path="res://Assets/Sprites/Characters/apogee.png" type="Texture" id=24]
+
+[node name="apogee" instance=ExtResource( 2 )]
+script = ExtResource( 1 )
+female = true
+phraseSection = "idle"
+phraseCode = "wait"
+
+[node name="Sprite" parent="." index="2"]
+texture = ExtResource( 24 )
+frame = 1
+
+[node name="audi" parent="." index="3"]
+stepsArray = {
+"dirt": [ ExtResource( 17 ), ExtResource( 20 ), ExtResource( 18 ) ],
+"ice": [ ExtResource( 12 ), ExtResource( 10 ), ExtResource( 16 ) ],
+"snow": [ ExtResource( 19 ), ExtResource( 8 ), ExtResource( 6 ) ],
+"wood": [ ExtResource( 9 ), ExtResource( 7 ), ExtResource( 13 ) ]
+}
+stepsRunArray = {
+"dirt": [ ExtResource( 5 ), ExtResource( 11 ), ExtResource( 23 ) ],
+"ice": [ ExtResource( 4 ), ExtResource( 14 ), ExtResource( 15 ) ],
+"snow": [ ExtResource( 21 ), ExtResource( 3 ), ExtResource( 22 ) ],
+"wood": [ ExtResource( 9 ), ExtResource( 7 ), ExtResource( 13 ) ]
+}
+
+[node name="raycast" type="RayCast2D" parent="." index="7"]
+cast_to = Vector2( 0, 10 )

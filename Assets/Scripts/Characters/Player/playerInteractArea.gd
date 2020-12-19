@@ -86,10 +86,12 @@ func _getClosestObject() -> void:
 		removeInteractObject(tempInteractObj)
 	
 	#проверяем Character на случай, если тот спрятался
+	#или уже проиграл
 	if G.player.state == G.STATE.SEARCHING \
-	&& tempInteractObj is Character \
-	&& tempInteractObj.hiding_in_prop:
-		removeInteractObject(tempInteractObj)
+	&& tempInteractObj is Character:
+		if tempInteractObj.hiding_in_prop \
+		|| tempInteractObj.state != G.STATE.HIDING:
+			removeInteractObject(tempInteractObj)
 	
 	if objI < interactObjectsArray.size() - 1:
 		objI += 1
@@ -127,6 +129,8 @@ func addInteractObject(newObject, hint) -> void:
 
 func removeInteractObject(object) -> void:
 	objI = 0
+	if !object in interactObjectsArray:
+		return
 	var deleteObjI = interactObjectsArray.find(object)
 	interactObjectsArray.remove(deleteObjI)
 	hintsArray.remove(deleteObjI)

@@ -16,7 +16,7 @@ var tempInteractArea = null
 #переменные для навигации по карте
 const RUN_DISTANCE = 150
 const CLOSE_DISTANCE = 45
-const PATH_DISTANCE = 25
+const PATH_DISTANCE = 20
 const WAIT_TIME = 0.5
 
 var targetPlace = null
@@ -27,10 +27,10 @@ onready var navigation = get_node("/root/Main/navigation")
 var path: PoolVector2Array
 
 #переменные для ведущего
-const SEARCH_CHANCE = 0.85
+const SEARCH_CHANCE = 0.87
 const SAY_CHANCE = 0.5
 const LOST_SAY_CHANCE = 0.05
-const SEARCHED_PLACES_COUNT = 14
+const SEARCHED_PLACES_COUNT = 8
 const NEED_CHECK_VALUE = 0.2
 const CHECK_SEE_TIMER = 0.6
 
@@ -42,6 +42,8 @@ var checkLastSeeTimer = 0
 #переменные для прячущегося
 const HIDE_CHANCE = 0.8
 const UPDATE_FOLLOW_TIME = 1.5
+const MIN_HIDING_TIME = 10
+const MAX_HIDING_TIME = 60
 var update_follow_timer = 0
 
 
@@ -53,11 +55,15 @@ func setState(newState) -> void:
 		
 		checkLastSeeTimer = 0
 		targetPlace       = null
-		targetPosition = Vector2.ZERO
+		targetPosition    = Vector2.ZERO
 		
-		if newState == G.STATE.LOST \
-		&& randf() <= SAY_CHANCE:
-			showMessage("hiding", "fail", 2)
+		if newState == G.STATE.LOST:
+			if (waitState == waitStates.hiding):
+				waitState = waitStates.none
+				waitTime  = 0
+			
+			if randf() <= SAY_CHANCE:
+				showMessage("hiding", "fail", 2)
 		
 		if newState == G.STATE.IDLE:
 			phraseCode = startPhrase
@@ -104,6 +110,12 @@ func _getNextPoint(delta) -> void:
 		goTo(targetPlace.global_position)
 
 
+func _stopHidingInProp() -> void:
+	if is_hiding: setHide(false)
+	if hiding_in_prop: myProp.interact(null, self)
+	stopWaiting()
+
+
 func sayAfterSearching(found: bool, character = null) -> void:
 	if found:
 		.sayAfterSearching(found, character)
@@ -121,10 +133,12 @@ func _interactWithTarget() -> void:
 		if state == G.STATE.HIDING:
 			setHide(true)
 			targetPlace.interact(null, self)
+			waitState = waitStates.hiding
+			waitTime  = rand_range(MIN_HIDING_TIME, MAX_HIDING_TIME)
 		if state == G.STATE.SEARCHING:
 			targetPlace.interact(null, self)
 			waitState = waitStates.searching
-			waitTime = SEARCH_WAIT_TIME
+			waitTime  = SEARCH_WAIT_TIME
 	
 	if targetPlace is Character && state == G.STATE.LOST:
 		var dist = global_position.distance_to(targetPlace.global_position) 
@@ -133,10 +147,23 @@ func _interactWithTarget() -> void:
 				showMessage("lost", "random", 2)
 
 
+func _decreaseWaitTime(delta) -> void:
+	if waitState == waitStates.hiding:
+		#если ведущий в поле видимости, не выходим
+		if !(manager.searchingCharacter.name in charactersISee):
+			waitTime -= delta
+		if !hiding_in_prop:
+			stopWaiting()
+	else:
+		waitTime -= delta
+
+
+
 func _updateWalking(delta) -> void:
 	if waitTime > 0:
-		waitTime -= delta
+		_decreaseWaitTime(delta)
 	elif targetPosition != Vector2.ZERO:
+		_stopHidingInProp()
 		sayAfterWaiting()
 		var tempDistance = global_position.distance_to(targetPosition)
 		if tempDistance > tempCloseDistance:
@@ -253,7 +280,7 @@ func afterInteract() -> void:
 
 func _ready():
 	isStartGameNPC = dialogue_id != ""
-	startPhrase   = phraseCode
+	startPhrase    = phraseCode
 	#чтоб не моргали одинаково
 	yield(get_tree().create_timer(randf() * 2), "timeout")
 	anim.seek(0, true)
