@@ -30,8 +30,6 @@ var i = 0
 var onetime = false
 
 export (String, FILE, "*.json") var dialogue_file_path: String
-export (String, FILE, "*.json") var phrases_male_file_path: String
-export (String, FILE, "*.json") var phrases_female_file_path: String
 var dialogues: Dictionary
 var phrases: Dictionary
 var is_animating = false
@@ -104,17 +102,9 @@ func ClickNext():
 		G.player.mayMove = true
 
 
-func loadFile(file_path) -> Dictionary:
-	var file = File.new()
-	file.open(file_path, file.READ)
-	return parse_json(file.get_as_text())
-
-
 func _ready():
 	G.dialogueMenu = self
-	phrases["male"]   = loadFile(phrases_male_file_path)
-	phrases["female"] = loadFile(phrases_female_file_path)
-	dialogues = loadFile(dialogue_file_path)
+	dialogues = G.loadFile(dialogue_file_path)
 
 
 func _process(delta):

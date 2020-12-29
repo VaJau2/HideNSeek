@@ -16,8 +16,7 @@ var interactObjectsArray = []
 var hintsArray = []
 var objI = 0
 
-var leftLabel = null
-var rightLabel = null
+var interactLabel = null
 var useButtons = {
 	"dialogue": "ui_use",
 	"hide": "ui_hide",
@@ -29,28 +28,18 @@ var hideLabels = false
 
 
 func _spawnLabels() -> void:
-	leftLabel = tempInteractObj.get_node("hints/leftLabel")
-	rightLabel = tempInteractObj.get_node("hints/rightLabel")
-	leftLabel.text = inputs.getInterfaceText(tempHint)
-	rightLabel.text = inputs.getInterfaceText(tempHint)
+	interactLabel = tempInteractObj.get_node("hints/leftLabel")
+	interactLabel.text = inputs.getInterfaceText(tempHint)
 
 
 func _showLabels() -> void:
-	if !hideLabels:
-		var leftOn = _objIsLefter()
-		leftLabel.visible = leftOn
-		rightLabel.visible = !leftOn
-	else:
-		leftLabel.visible = false
-		rightLabel.visible = false
+	interactLabel.visible = !hideLabels
 
 
 func _hideLabels() -> void:
 	if tempInteractObj != null:
-		if leftLabel != null:
-			leftLabel.visible = false
-		if rightLabel != null:
-			rightLabel.visible = false
+		if interactLabel != null:
+			interactLabel.visible = false
 
 
 func _setTempInteractObj(_objI: int) -> void:
@@ -58,10 +47,6 @@ func _setTempInteractObj(_objI: int) -> void:
 	tempInteractObj = interactObjectsArray[_objI]
 	tempHint = hintsArray[_objI]
 	_spawnLabels()
-
-
-func _objIsLefter() -> bool:
-	return tempInteractObj.global_position.x > get_parent().global_position.x
 
 
 func _getClosestObject() -> void:
@@ -78,12 +63,16 @@ func _getClosestObject() -> void:
 		if newDist < tempDist:
 			_setTempInteractObj(objI)
 	
-	#проверяем hidingSpot на случай, если его кто-то займет раньше
-	if G.player.state == G.STATE.HIDING \
-	&& tempInteractObj is HidingSpot \
-	&& tempInteractObj.my_character != null \
-	&& tempInteractObj.my_character != self:
-		removeInteractObject(tempInteractObj)
+	
+	if G.player.state == G.STATE.HIDING:
+		#проверяем character, тк с ними в этом режиме взаимодействовать нельзя
+		if tempInteractObj is Character:
+			removeInteractObject(tempInteractObj)
+		#проверяем hidingSpot на случай, если его кто-то займет раньше
+		if tempInteractObj is HidingSpot \
+		&& tempInteractObj.my_character != null \
+		&& tempInteractObj.my_character != self:
+			removeInteractObject(tempInteractObj)
 	
 	#проверяем Character на случай, если тот спрятался
 	#или уже проиграл

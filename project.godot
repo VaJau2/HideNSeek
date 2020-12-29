@@ -27,7 +27,10 @@ _global_script_class_icons={
 [application]
 
 config/name="Hide N Seek"
-run/main_scene="res://Scenes/Main.tscn"
+run/main_scene="res://Scenes/StartScreen.tscn"
+boot_splash/image="res://Assets/Sprites/blackScreen.png"
+boot_splash/fullsize=false
+boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://icon.png"
 config/macos_native_icon="res://icon.ico"
 config/windows_native_icon="res://icon.ico"

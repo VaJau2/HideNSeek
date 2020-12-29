@@ -14,6 +14,7 @@ const DIALOGUE_CODE = {
 
 onready var background = get_node("canvas/background")
 onready var gameLabel = get_node("canvas/Timer")
+onready var music = get_node("music")
 
 var allCharacters = []
 var startPlaces = []
@@ -37,10 +38,6 @@ func findCharacter(character) -> void:
 	
 	hidingCharacters.erase(character)
 	character.setState(G.STATE.LOST)
-	print("found " + character.name)
-	print("hidingCharacters left: ")
-	for _character in hidingCharacters:
-		print("- " + _character.name)
 	if hidingCharacters.size() == 0:
 		G.timer.finishTimer()
 	else:
@@ -53,7 +50,9 @@ func _savePlaces() -> void:
 		startPlaces.append(character.global_position)
 
 
+#Перемещает всех пней в изначальные позиции
 func _resetGame() -> void:
+	music.muteTrack()
 	while background.setBackgroundOn():
 		yield(get_tree().create_timer(0.05), "timeout")
 	
@@ -70,6 +69,7 @@ func _resetGame() -> void:
 	
 	while background.setBackgroundOff():
 		yield(get_tree().create_timer(0.05), "timeout")
+	music.playTrack("idle")
 
 
 func startGame(newSearchingChar: Character = null) -> void:
@@ -100,14 +100,18 @@ func startGame(newSearchingChar: Character = null) -> void:
 	G.timer.startTimer(G.HIDING_TIME)
 	
 	if searchingCharacter == G.player:
+		music.muteTrack()
 		while background.setBackgroundOn():
 			yield(get_tree().create_timer(0.05), "timeout")
+	else:
+		music.playTrack("game")
 	
 	yield(G.timer, "timeout")
 	
 	if searchingCharacter == G.player:
 		while background.setBackgroundOff():
 			yield(get_tree().create_timer(0.05), "timeout")
+		music.playTrack("game")
 	
 	G.timer.startTimer(G.SEARCHING_TIME)
 	yield(G.timer, "timeout")

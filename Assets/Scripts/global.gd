@@ -16,10 +16,16 @@ var randomSpots: Array
 var currentCamera: Camera2D
 
 
-func getPhrase(female: bool, section: String, phrase: String):
-	var tempSex = "male"
-	if female:
-		tempSex = "female"
-	var phrasesArray = dialogueMenu.phrases[tempSex][section][phrase]
+func getPhrase(_name: String, section: String, phrase: String):
+	var phrasePath = "res://Assets/json/phrases/" + _name + ".json"
+	var phraseData = loadFile(phrasePath)
+	var phrasesArray = phraseData[section][phrase]
+	randomize()
 	var phraseI = randi() % phrasesArray.size()
 	return phrasesArray[str(phraseI)]
+
+
+func loadFile(file_path) -> Dictionary:
+	var file = File.new()
+	file.open(file_path, file.READ)
+	return parse_json(file.get_as_text())

@@ -12,7 +12,7 @@ const STEP_SOUNDS_COUNT = 3
 var timer = 0
 var stepI = 0
 
-var land_material = "snow"
+var land_material = "dirt"
 onready var parent = get_parent()
 
 export var stepsArray = {

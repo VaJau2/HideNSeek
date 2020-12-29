@@ -85,7 +85,7 @@ func _process(delta):
 		velocity = Vector2(0, 0)
 		waitTime -= delta
 		return
-
+	
 	sayAfterWaiting()
 	_checkHidingKey()
 	updateKeys()

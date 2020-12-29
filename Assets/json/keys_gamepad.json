@@ -1,7 +1,7 @@
 {
-    "dialogue": "X - поговорить",
-    "hide": "Y - спрятаться",
-	"search": "X - искать",
-	"find": "X - найти",
+    "dialogue": "X",
+    "hide": "Y",
+	"search": "X",
+	"find": "X",
     "skip": "A - продолжить"
 }

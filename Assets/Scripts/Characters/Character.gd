@@ -8,14 +8,12 @@ class_name Character
 
 onready var manager = get_node("/root/Main")
 
-export var female: bool
-
 #переменные состояния
 const SEARCH_WAIT_TIME = 0.9
 
 var state = G.STATE.IDLE
 
-enum waitStates {waiting, searching, hiding, none}
+enum waitStates {none, waiting, searching, hiding}
 var waitState = waitStates.none
 var waitTime = 0
 
@@ -50,7 +48,7 @@ const SEE_HIDING_INCREMENT = 0.5
 
 
 func showMessage(section: String, phrase: String, timer = 3) -> void:
-	var text = G.getPhrase(female, section, phrase)
+	var text = G.getPhrase(name, section, phrase)
 	messageLabel.text = text
 	messageTimer = timer
 	messageCount = true

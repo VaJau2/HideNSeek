@@ -8,9 +8,9 @@ var gamepadOn = false
 func getInterfaceText(interfaceCode: String):
 	var keysData = {}
 	if gamepadOn:
-		keysData = G.dialogueMenu.loadFile(gamepad_json)
+		keysData = G.loadFile(gamepad_json)
 	else:
-		keysData = G.dialogueMenu.loadFile(keyboard_json)
+		keysData = G.loadFile(keyboard_json)
 	return keysData[interfaceCode]
 
 

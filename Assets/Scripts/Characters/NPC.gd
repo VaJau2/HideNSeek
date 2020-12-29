@@ -44,7 +44,9 @@ const HIDE_CHANCE = 0.8
 const UPDATE_FOLLOW_TIME = 1.5
 const MIN_HIDING_TIME = 10
 const MAX_HIDING_TIME = 60
+const HIDING_COOLDOWN = 3
 var update_follow_timer = 0
+var hidingCooldown = 0
 
 
 func setState(newState) -> void:
@@ -112,7 +114,9 @@ func _getNextPoint(delta) -> void:
 
 func _stopHidingInProp() -> void:
 	if is_hiding: setHide(false)
-	if hiding_in_prop: myProp.interact(null, self)
+	if hiding_in_prop: 
+		myProp.interact(null, self)
+		hidingCooldown = HIDING_COOLDOWN
 	stopWaiting()
 
 
@@ -125,7 +129,6 @@ func sayAfterSearching(found: bool, character = null) -> void:
 				showMessage("searching", "fail", 2)
 			else:
 				showMessage("searching", "fail_one", 2)
-
 
 
 func _interactWithTarget() -> void:
@@ -149,7 +152,7 @@ func _interactWithTarget() -> void:
 
 func _decreaseWaitTime(delta) -> void:
 	if waitState == waitStates.hiding:
-		#если ведущий в поле видимости, не выходим
+		#если ведущий в поле видимости, не выходим из пропа
 		if !(manager.searchingCharacter.name in charactersISee):
 			waitTime -= delta
 		if !hiding_in_prop:
@@ -163,10 +166,11 @@ func _updateWalking(delta) -> void:
 	if waitTime > 0:
 		_decreaseWaitTime(delta)
 	elif targetPosition != Vector2.ZERO:
-		_stopHidingInProp()
 		sayAfterWaiting()
+		_stopHidingInProp()
+		
 		var tempDistance = global_position.distance_to(targetPosition)
-		if tempDistance > tempCloseDistance:
+		if tempDistance > tempCloseDistance && path.size() > 0:
 			is_running = (tempDistance > RUN_DISTANCE)
 			
 			var pathDistance = global_position.distance_to(path[0])
@@ -174,7 +178,7 @@ func _updateWalking(delta) -> void:
 				dir = global_position.direction_to(path[0]).normalized()
 				setFlipX(dir.x < 0)
 			else:
-				if path.size() > 1:
+				if path.size() > 0:
 					path.remove(0)
 		else:
 			targetPosition = Vector2.ZERO
@@ -233,7 +237,8 @@ func _on_seekArea_body_entered(body):
 		if body is HidingSpot \
 			&& !(targetPlace is HidingSpot) \
 			&& body.my_character == null \
-			&& randf() <= HIDE_CHANCE:
+			&& randf() <= HIDE_CHANCE \
+			&& hidingCooldown <= 0:
 				targetPlace = body
 				goTo(body.global_position)
 	
@@ -291,6 +296,9 @@ func _process(delta):
 	is_running = false
 	_updateWalking(delta)
 	updateVelocity(delta)
+	
+	if hidingCooldown > 0:
+		hidingCooldown -= delta
 	
 	if state == G.STATE.SEARCHING:
 		_checkSeeCharacters(delta)

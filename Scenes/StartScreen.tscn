@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Fonts/RusFontTheme.tres" type="Theme" id=1]
+[ext_resource path="res://Assets/Sprites/loadBackground.png" type="Texture" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+func _input(event):
+	if !event is InputEventMouseMotion:
+		get_tree().change_scene(\"res://Scenes/Main.tscn\")
+"
+
+[node name="Main" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0509804, 0.0509804, 0.0509804, 1 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -152.0
+margin_top = -30.0
+margin_right = 152.0
+margin_bottom = -15.0
+rect_scale = Vector2( 0.9, 0.9 )
+theme = ExtResource( 1 )
+text = "Нажите любую клавишу, чтобы продолжить"

@@ -172,8 +172,9 @@ vframes = 7
 hframes = 8
 
 [node name="audi" type="AudioStreamPlayer2D" parent="."]
-volume_db = -18.0
+volume_db = -12.0
 max_distance = 800.0
+bus = "Sound"
 script = ExtResource( 5 )
 stepsArray = {
 "dirt": [ ExtResource( 13 ), ExtResource( 18 ), ExtResource( 14 ) ],
@@ -203,9 +204,9 @@ anims/walk = SubResource( 8 )
 z_index = 5
 
 [node name="message" type="Label" parent="labelNode"]
-margin_left = -111.0
+margin_left = -172.0
 margin_top = -65.0
-margin_right = 114.0
+margin_right = 175.0
 margin_bottom = -51.0
 theme = ExtResource( 4 )
 align = 1
