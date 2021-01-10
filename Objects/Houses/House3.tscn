@@ -10,8 +10,6 @@ extents = Vector2( 55.5547, 86.7656 )
 extents = Vector2( 61.7679, 28.1453 )
 
 [node name="House" type="StaticBody2D"]
-collision_layer = 3
-collision_mask = 3
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -86.475 )

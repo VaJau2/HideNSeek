@@ -7,9 +7,13 @@ extends KinematicBody2D
 class_name Character
 
 onready var manager = get_node("/root/Main")
+export var is_player = false
 
 #переменные состояния
 const SEARCH_WAIT_TIME = 0.9
+
+const NPC_ILDE_COLLISION = 2
+const NPC_LOST_COLLISION = 4
 
 var state = G.STATE.IDLE
 
@@ -103,10 +107,11 @@ func setState(newState) -> void:
 		changeAnimation("wait")
 		waitTime = G.HIDING_TIME
 		waitState = waitStates.waiting
-	if state == G.STATE.LOST:
-		changeCollision(2)
-	else:
-		changeCollision(1)
+	if !is_player:
+		if state == G.STATE.LOST:
+			changeCollision(NPC_LOST_COLLISION)
+		else:
+			changeCollision(NPC_ILDE_COLLISION)
 
 
 func updateVelocity(delta: float) -> void:

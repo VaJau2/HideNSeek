@@ -13,8 +13,6 @@ extents = Vector2( 92.7883, 73.1389 )
 extents = Vector2( 19.0828, 52.4641 )
 
 [node name="Barn" type="KinematicBody2D"]
-collision_layer = 3
-collision_mask = 3
 script = ExtResource( 1 )
 open_sprite = ExtResource( 5 )
 hide_animation = "sit"

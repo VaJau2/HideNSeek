@@ -77,8 +77,11 @@ func interact(interactArea = null, character = G.player) -> void:
 	else:
 		if oldPlace != Vector2.ZERO:
 			character.global_position = oldPlace
-		if character.state != G.STATE.LOST:
+		
+		if character.is_player:
 			character.changeCollision(1)
+		elif character.state != G.STATE.LOST:
+			character.changeCollision(2)
 		character.changeParent(ySort)
 		character.myProp = null
 		my_character = null

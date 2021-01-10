@@ -8,8 +8,6 @@ extents = Vector2( 10, 11.7034 )
 
 [node name="Tree5" type="StaticBody2D"]
 position = Vector2( 743.062, -604.955 )
-collision_layer = 3
-collision_mask = 3
 
 [node name="tree12" type="Sprite" parent="."]
 position = Vector2( -0.852966, -39.4391 )

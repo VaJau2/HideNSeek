@@ -31,6 +31,8 @@ extents = Vector2( 43.9174, 34.1863 )
 
 [node name="Player" instance=ExtResource( 1 )]
 input_pickable = true
+collision_layer = 2147483649
+collision_mask = 1
 script = ExtResource( 2 )
 
 [node name="Sprite" parent="." index="2"]
@@ -64,6 +66,8 @@ stepsRunArray = {
 [node name="interactArea" type="Area2D" parent="." index="5"]
 visible = false
 monitorable = false
+collision_layer = 3
+collision_mask = 3
 script = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="interactArea" index="0"]
